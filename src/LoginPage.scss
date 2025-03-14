@@ -1,0 +1,105 @@
+*,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+.page-space {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: url('https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+    .page-form {
+        display: flex;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 4px 26px 0px;
+        width: 100%;
+        max-width: 317px;
+        height: 356px;
+        padding: 67px 42px 27px 42px;
+        border-radius: 30px;
+        background-color: white;
+
+        .form-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 72px;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: auto;
+                object-fit: cover;
+            }
+        }
+
+        .form-title {
+            display: flex;
+            margin: 34px auto 36px;
+            height: 3vh;
+            font-weight: bold;
+        }
+
+        .form-input-space {
+            display: flex;
+            height: 200px;
+            width: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            font-family: sans-serif;
+
+            .form-input {
+                display: flex;
+                flex-direction: column;
+
+                .input-title {
+                    display: flex;
+                    font-size: 14px;
+                    align-items: center;
+                }
+
+                .input {
+                    padding: auto;
+                    height: 46px;
+                    border-color: #B6B6B6;
+                    box-shadow: none;
+
+                    &:hover {
+                        border-color: #70BA2B;
+                        box-shadow: none;
+                    }
+                }
+            }
+
+            .submit-button-space {
+                display: flex;
+                flex: 1;
+                justify-content: end;
+                align-items: center;
+
+                .submit-button {
+                    width: 147px;
+                    background-color: #390099;
+                    color: white;
+                    font-family: inherit;
+                    font-weight: bold;
+
+                    &:hover {
+                        background-color: #10253F;
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+}
