@@ -1,5 +1,5 @@
 import { Button, Input, Space } from "antd"
-import './LoginPage.scss'
+import './styles/LoginPage.scss'
 import { useState } from "react";
 
 const LoginPage = () => {
