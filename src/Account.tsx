@@ -1,5 +1,6 @@
 import { TableColumnsType, TableProps } from "antd";
-import CustomTable from "./components/CustomTable/CustomTable";
+import CustomTable from "./components/CustomTable/CustomTable"
+
 interface DataType {
     key: React.Key;
     name: string;
@@ -44,22 +45,22 @@ const columns: TableColumnsType<DataType> = [
         title: 'Age',
         dataIndex: 'age',
         defaultSortOrder: 'descend',
-        sorter: (a, b) => a.age - b.age,
+        // sorter: (a, b) => a.age - b.age,
     },
     {
         title: 'Address',
         dataIndex: 'address',
-        filters: [
-            {
-                text: 'London',
-                value: 'London',
-            },
-            {
-                text: 'New York',
-                value: 'New York',
-            },
-        ],
-        onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+        // filters: [
+        //     {
+        //         text: 'London',
+        //         value: 'London',
+        //     },
+        //     {
+        //         text: 'New York',
+        //         value: 'New York',
+        //     },
+        // ],
+        // onFilter: (value, record) => record.address.indexOf(value as string) === 0,
     },
     {
         title: "Action",
@@ -73,25 +74,25 @@ const columns: TableColumnsType<DataType> = [
 
 const data = [
     {
-        key: '1',
+        key: 'key_1',
         name: 'John Brown',
         age: 32,
         address: 'New York No. 1 Lake Park',
     },
     {
-        key: '2',
+        key: 'key_2',
         name: 'Jim Green',
         age: 42,
         address: 'London No. 1 Lake Park',
     },
     {
-        key: '3',
+        key: 'key_3',
         name: 'Joe Black',
         age: 32,
         address: 'Sydney No. 1 Lake Park',
     },
     {
-        key: '4',
+        key: 'key_4',
         name: 'Jim Red',
         age: 32,
         address: 'London No. 2 Lake Park',
@@ -191,7 +192,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
     console.log('params', pagination, filters, sorter, extra);
 };
 
-const Test = () => {
+const Account = () => {
     return (
         <div style={{
             display: 'flex',
@@ -210,9 +211,10 @@ const Test = () => {
                     onChange={onChange}
 
                 ></CustomTable>
-
             </div>
-        </div>
+        </div >
     )
+
 }
-export default Test;
+
+export default Account
