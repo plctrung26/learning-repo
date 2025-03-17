@@ -45,22 +45,22 @@ const columns: TableColumnsType<DataType> = [
         title: 'Age',
         dataIndex: 'age',
         defaultSortOrder: 'descend',
-        // sorter: (a, b) => a.age - b.age,
+        sorter: (a, b) => a.age - b.age,
     },
     {
         title: 'Address',
         dataIndex: 'address',
-        // filters: [
-        //     {
-        //         text: 'London',
-        //         value: 'London',
-        //     },
-        //     {
-        //         text: 'New York',
-        //         value: 'New York',
-        //     },
-        // ],
-        // onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+        filters: [
+            {
+                text: 'London',
+                value: 'London',
+            },
+            {
+                text: 'New York',
+                value: 'New York',
+            },
+        ],
+        onFilter: (value, record) => record.address.indexOf(value as string) === 0,
     },
     {
         title: "Action",

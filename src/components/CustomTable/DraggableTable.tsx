@@ -24,7 +24,7 @@ const DraggableTable = <RecordType extends object & { key: React.Key }>(props: T
             <DndProvider backend={HTML5Backend}>
                 <Table<RecordType>
                     {...props}
-                    className='table'
+                    className='draggable-table'
                     dataSource={data}
                     bordered
                     showSorterTooltip={{ target: 'sorter-icon' }}

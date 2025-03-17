@@ -1,4 +1,4 @@
-import { Button, Input, Space } from "antd"
+import { Button, Input } from "antd"
 import './styles/LoginPage.scss'
 import { useState } from "react";
 

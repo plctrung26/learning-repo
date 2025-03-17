@@ -8,7 +8,7 @@ const CustomTable = <Record extends object>(props: TableProps<Record>) => {
         <div className='table-container'>
             <Table<Record>
                 {...props}
-                className='table'
+                className='custom-table'
                 bordered
                 showSorterTooltip={{ target: 'sorter-icon' }}
                 pagination={{
