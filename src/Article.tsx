@@ -74,23 +74,20 @@ const Article = () => {
     return (
         <div style={{
             display: 'flex',
-            width: '100vw',
-            height: '100vh',
+            width: '100%',
+            height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column'
         }}  >
 
+            <DraggableTable
+                columns={columns}
+                dataSource={data}
+                onChange={onChange}
 
-            <div style={{ height: '80vh', width: '90vw', padding: '20px', backgroundColor: '#F7F8F9' }}>
-                <DraggableTable
-                    columns={columns}
-                    dataSource={data}
-                    onChange={onChange}
+            ></DraggableTable>
 
-                ></DraggableTable>
-
-            </div>
         </div>
     )
 }

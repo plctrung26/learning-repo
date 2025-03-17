@@ -1,5 +1,6 @@
 import { TableColumnsType, TableProps } from "antd";
 import CustomTable from "./components/CustomTable/CustomTable"
+import React from "react";
 
 interface DataType {
     key: React.Key;
@@ -192,27 +193,23 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
     console.log('params', pagination, filters, sorter, extra);
 };
 
+
 const Account = () => {
     return (
         <div style={{
             display: 'flex',
-            width: '100vw',
-            height: '100vh',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-        }}  >
-
-
-            <div style={{ height: '80vh', width: '90vw', padding: '20px', backgroundColor: '#F7F8F9' }}>
-                <CustomTable
-                    columns={columns}
-                    dataSource={data}
-                    onChange={onChange}
-
-                ></CustomTable>
-            </div>
-        </div >
+            height: '100%',
+            width: '100%',
+            padding: '20px 20px 0px 20px',
+            backgroundColor: '#F7F8F9',
+            boxSizing: 'border-box'
+        }}>
+            <CustomTable
+                columns={columns}
+                dataSource={data}
+                onChange={onChange}
+            ></CustomTable>
+        </div>
     )
 
 }
