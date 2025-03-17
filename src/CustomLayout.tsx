@@ -74,8 +74,7 @@ const CustomLayout = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: '100%',
-                            height: '100%',
-                            maxHeight: '90vh'
+                            height: '90vh',
                         }}>
                             <Outlet />
                         </div>
