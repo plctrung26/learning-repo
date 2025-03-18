@@ -78,7 +78,8 @@ const Article = () => {
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            boxSizing: 'border-box'
         }}  >
 
             <DraggableTable

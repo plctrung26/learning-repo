@@ -1,0 +1,123 @@
+.custom-navbar {
+    display: flex;
+    height: 57px;
+    width: 100%;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    border: 1px solid #B3B9C4;
+
+    .search-items {
+        display: flex;
+        width: auto;
+        height: 80%;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+
+        .filter-button {
+            display: flex;
+            height: 100%;
+            background-color: #F4F4F4;
+            color: #114252;
+            border: none;
+
+            &:hover {
+                background-color: #F4F4F4 !important;
+                color: #114252 !important;
+
+            }
+
+            &:active {
+                color: #0FA4C5;
+            }
+        }
+
+        .search-bar {
+            display: flex;
+            height: auto;
+            width: auto;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            padding: 0px 4px;
+            border: 1px solid #636364;
+
+
+            .ant-input-wrapper {
+                display: flex;
+                height: 41px;
+                width: auto;
+                border: none;
+
+                &:focus {
+                    border: none;
+                }
+
+                &:active {
+                    border: none;
+                }
+
+                .ant-input {
+                    display: flex;
+                    width: 369px;
+                    height: 100%;
+                    border: none;
+
+
+                }
+
+                .ant-input-group-addon {
+                    width: auto;
+                    height: 100%;
+
+                    .ant-btn {
+                        display: flex;
+                        height: 100%;
+                        border-left: none;
+                        border: none;
+
+                        &:hover {
+                            border-color: inherit !important;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    .right-buttons {
+        display: flex;
+        height: auto;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        .nav-button {
+            background-color: white;
+            border: 1px solid #0FA4C5;
+            color: #0FA4C5;
+
+            &:hover {
+                background-color: white;
+                border: 1px solid #0FA4C5;
+                color: #0FA4C5;
+            }
+        }
+
+        .create-button {
+            color: white;
+            border: 1px solid #0FA4C5;
+            background-color: #0FA4C5;
+
+            &:hover {
+                background-color: #0FA4C5;
+                border: 1px solid #0FA4C5;
+                color: white;
+            }
+        }
+    }
+}

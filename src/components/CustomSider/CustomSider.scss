@@ -1,0 +1,99 @@
+.custom-sider {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .sider-top {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+
+        .sider-name {
+            display: flex;
+            width: 100%;
+            height: 57px;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #390099;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sider-menu {
+            display: flex;
+            flex-direction: column;
+
+            .menu-button {
+                display: flex;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 20px !important;
+
+                .menu-icon {
+                    font-size: 25px;
+                }
+            }
+
+            .ant-menu-submenu {
+                display: flex;
+                flex-direction: column;
+                gap: 0px !important;
+
+                .ant-menu-submenu-title {
+                    display: flex;
+                    justify-content: center !important;
+                    align-items: center !important;
+                    gap: 20px !important;
+                }
+
+                .ant-menu-sub {
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    .ant-menu-item {
+                        padding-left: 77px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .sider-bottom {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 20px;
+        background-color: #DFD6EF;
+
+        .sider-bottom-left {
+            display: flex;
+            width: auto;
+            height: 100%;
+            justify-content: start;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .more-button {
+            display: flex;
+            background-color: #DFD6EF;
+            border: none;
+            color: #625F6A;
+
+            &:hover {
+                background-color: #D6CEE6;
+                border: none;
+                color: #625F6A;
+            }
+
+            .more-icon {
+                font-size: 30px;
+            }
+        }
+    }
+}

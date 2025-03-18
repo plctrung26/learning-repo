@@ -200,7 +200,6 @@ const Account = () => {
             display: 'flex',
             height: '100%',
             width: '100%',
-            padding: '20px 20px 0px 20px',
             backgroundColor: '#F7F8F9',
             boxSizing: 'border-box'
         }}>
