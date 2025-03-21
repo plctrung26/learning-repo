@@ -1,9 +1,24 @@
-import { Button, Input } from "antd"
+import { Button, Form, Input, message } from "antd"
 import './styles/LoginPage.scss'
-import { useState } from "react";
+import axios from "axios";
+
 
 const LoginPage = () => {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    // const [passwordVisible, setPasswordVisible] = useState(false);
+    const [form] = Form.useForm();
+
+    const onFinish = async (values: { username: string; password: string }) => {
+        console.log("Form Submitted with Data:", values);
+        try {
+            const response = await axios.post("https://dev-api-nurture.vinova.sg/api/v1/admins/auth/login", values);
+            console.log("Login successful:", JSON.stringify(response.data.data.tokens.refreshToken));
+            message.success("Login successful!");
+            sessionStorage.setItem("access_token", response.data.data.tokens.accessToken);
+        } catch (error) {
+            console.error("Login failed:", error);
+            message.error("Invalid credentials. Please try again.");
+        }
+    };
 
     return (
         <div className="page-space">
@@ -14,7 +29,7 @@ const LoginPage = () => {
                 <div className="form-title">
                     CMS Login
                 </div>
-                <div className="form-input-space">
+                {/* <form className="form-input-space" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-input">
                         <div className="input-title">
                             Username or email
@@ -22,6 +37,7 @@ const LoginPage = () => {
                         <Input
                             className="input"
                             placeholder="Username or email"
+                            {...register("username", { required: "Username is required" })}
                         ></Input>
                     </div>
                     <div className="form-input">
@@ -32,15 +48,43 @@ const LoginPage = () => {
                             className="input"
                             placeholder="input password"
                             visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+                            {...register("password", { required: "Password is required" })}
                         />
                     </div>
                     <div className="submit-button-space">
                         <Button
-                            className="submit-button">
+                            className="submit-button"
+                            htmlType="submit"
+                            onClick={handleSubmit}>
                             Login
                         </Button>
                     </div>
-                </div>
+                </form> */}
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={onFinish}
+                >
+                    <Form.Item
+                        label="Username or email"
+                        name="username"
+                        rules={[{ required: true, message: "Please enter your username or email" }]}
+                    >
+                        <Input placeholder="Enter your username" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: "Please enter your password" }]}
+                    >
+                        <Input.Password placeholder="Enter your password" />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">Login</Button>
+                    </Form.Item>
+                </Form>
             </div>
         </div >
     )

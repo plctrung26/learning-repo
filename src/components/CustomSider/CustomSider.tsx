@@ -1,8 +1,10 @@
 import { AppstoreOutlined, DesktopOutlined, EllipsisOutlined, FileOutlined, GiftOutlined, MessageOutlined, ProfileOutlined, SearchOutlined, TeamOutlined, UnorderedListOutlined, WalletOutlined } from '@ant-design/icons';
 import './CustomSider.scss'
 import { Avatar, Button, Dropdown, Menu, MenuProps } from 'antd';
+import { useNavigate } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>['items'][number];
+
 
 const items: MenuItem[] = [
     {
@@ -38,20 +40,26 @@ const items: MenuItem[] = [
     },
 ];
 
-const userMoreItems: MenuProps['items'] = [
-    {
-        key: 'logout', label: 'Logout',
-    },
-    {
-        key: 'change-password', label: 'Change Password',
-    },
-];
-
 
 const CustomSider = () => {
+    const navigate = useNavigate();
+
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
     }
+
+    const userMoreItems: MenuProps['items'] = [
+        {
+            key: 'logout', label: 'Logout', onClick: () => {
+                console.log('success')
+                sessionStorage.removeItem('access_token')
+                navigate("/login", { replace: true });
+            }
+        },
+        {
+            key: 'change-password', label: 'Change Password',
+        },
+    ];
     return (
         <div className="custom-sider">
             <div className="sider-top">
