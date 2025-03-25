@@ -1,11 +1,12 @@
 import { Button, Form, Input, message } from "antd"
 import './styles/LoginPage.scss'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
-    // const [passwordVisible, setPasswordVisible] = useState(false);
     const [form] = Form.useForm();
+    const navigate = useNavigate()
 
     const onFinish = async (values: { username: string; password: string }) => {
         console.log("Form Submitted with Data:", values);
@@ -14,6 +15,7 @@ const LoginPage = () => {
             console.log("Login successful:", JSON.stringify(response.data.data.tokens.refreshToken));
             message.success("Login successful!");
             sessionStorage.setItem("access_token", response.data.data.tokens.accessToken);
+            navigate("/static-content", { replace: true })
         } catch (error) {
             console.error("Login failed:", error);
             message.error("Invalid credentials. Please try again.");
@@ -29,37 +31,6 @@ const LoginPage = () => {
                 <div className="form-title">
                     CMS Login
                 </div>
-                {/* <form className="form-input-space" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="form-input">
-                        <div className="input-title">
-                            Username or email
-                        </div>
-                        <Input
-                            className="input"
-                            placeholder="Username or email"
-                            {...register("username", { required: "Username is required" })}
-                        ></Input>
-                    </div>
-                    <div className="form-input">
-                        <div className="input-title">
-                            Password
-                        </div>
-                        <Input.Password
-                            className="input"
-                            placeholder="input password"
-                            visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
-                            {...register("password", { required: "Password is required" })}
-                        />
-                    </div>
-                    <div className="submit-button-space">
-                        <Button
-                            className="submit-button"
-                            htmlType="submit"
-                            onClick={handleSubmit}>
-                            Login
-                        </Button>
-                    </div>
-                </form> */}
                 <Form
                     form={form}
                     layout="vertical"
@@ -82,7 +53,7 @@ const LoginPage = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Login</Button>
+                        <Button type="primary" htmlType="submit" >Login</Button>
                     </Form.Item>
                 </Form>
             </div>

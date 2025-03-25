@@ -1,13 +1,15 @@
 import { TableColumnsType, TableProps } from "antd";
 import CustomTable from "./components/CustomTable/CustomTable"
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
 
 interface StaticContentData {
     key: React.Key;
+    id: string;
     slug: string;
     category: string;
-    required: string;
+    isRequired: boolean;
     title: string;
     status: string;
 }
@@ -26,7 +28,8 @@ const columns: TableColumnsType<StaticContentData> = [
     {
         title: 'Required',
         dataIndex: 'required',
-        sorter: (a, b) => a.required.localeCompare(b.required),
+        sorter: (a, b) => Number(a.isRequired) - Number(b.isRequired),
+        render: (isRequired) => (isRequired ? 'Yes' : 'No')
     },
     {
         title: 'Title',
@@ -44,18 +47,10 @@ const columns: TableColumnsType<StaticContentData> = [
         key: "action",
         width: 120,
         fixed: "right", // Freeze this column to the right
-        render: () => <button>Edit</button>,
+        render: () => <ButtonGroup isDelete={true} isEdit={true} />,
     },
 ];
 
-const data: StaticContentData[] = [{
-    key: "1", // Assuming React.Key can be a string or number
-    slug: "example-slug",
-    category: "Tech",
-    required: "Yes",
-    title: "Understanding TypeScript",
-    status: "Published"
-}];
 
 const onChange: TableProps<StaticContentData>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
@@ -64,6 +59,7 @@ const onChange: TableProps<StaticContentData>['onChange'] = (pagination, filters
 
 
 const StaticContent = () => {
+    const [data, setData] = useState([])
 
     const fetchData = async (): Promise<StaticContentData[] | any> => {
         try {
@@ -71,6 +67,9 @@ const StaticContent = () => {
                 params: {
                     page: 1,
                     limit: 25
+                },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
                 }
             });
             console.log('Success')
@@ -83,7 +82,12 @@ const StaticContent = () => {
 
     useEffect(() => {
         fetchData().then((data) => {
-            console.log(data);
+            const testdata = data.data.map((item: StaticContentData) => ({
+                ...item,
+                key: item.id
+            }))
+            console.log(testdata)
+            setData(testdata)
         });
     }, [])
 
