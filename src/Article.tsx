@@ -1,5 +1,6 @@
 import { TableColumnsType, TableProps } from "antd";
 import DraggableTable from "./components/CustomTable/DraggableTable";
+import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
 
 interface DataType {
     key: React.Key;
@@ -31,7 +32,7 @@ const columns: TableColumnsType<DataType> = [
         key: "action",
         width: 120,
         fixed: "right",
-        render: () => <button>Edit</button>,
+        render: () => <ButtonGroup isDelete={true} isEdit={true} isDetail={true} useModel={false} />,
     },
 ];
 

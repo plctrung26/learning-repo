@@ -9,9 +9,10 @@ interface CustomDrawerProps extends DrawerProps {
     submitButtonText?: string
     toolTipTitle?: string
     drawerTitle?: string
+    openButtonShape?: "default" | "circle" | "round" | undefined
 }
 
-const CustomDrawer: React.FC<CustomDrawerProps> = ({ drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
+const CustomDrawer: React.FC<CustomDrawerProps> = ({ openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
     const [open, setOpen] = useState(false);
 
     const showDrawer = () => {
@@ -25,7 +26,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ drawerTitle, toolTipTitle, 
     return (
         <>
             <Tooltip title={toolTipTitle}>
-                <Button onClick={showDrawer} icon={openButtonIcon} shape='circle' className='show-drawer-button'>
+                <Button onClick={showDrawer} icon={openButtonIcon} shape={openButtonShape} className='show-drawer-button'>
                     {openButtonText}
                 </Button>
             </Tooltip>

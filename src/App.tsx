@@ -1,7 +1,6 @@
 import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import CustomDrawer from "./components/CustomDrawer/CustomDrawer";
-import CustomForm from "./components/CustomForm/CustomForm";
 import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
 import { EyeOutlined } from '@ant-design/icons';
 import CustomModal from "./components/CutomModal/CustomModal";
@@ -23,7 +22,29 @@ function App() {
       <Button onClick={() => { navigate('/article') }}>Draggable Table</Button>
       <div>
         <CustomDrawer toolTipTitle="Helloooo" openButtonIcon={<EyeOutlined className="button-icon" />}>
-          <CustomForm />
+          <Form
+            layout="vertical"
+          >
+            <Form.Item
+              label="Username or email"
+              name="username"
+              rules={[{ required: true, message: "Please enter your username or email" }]}
+            >
+              <Input placeholder="Enter your username" />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: "Please enter your password" }]}
+            >
+              <Input.Password placeholder="Enter your password" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" >Login</Button>
+            </Form.Item>
+          </Form>
         </CustomDrawer>
       </div>
       <div>
@@ -31,7 +52,7 @@ function App() {
       </div>
 
       <div>
-        <CustomModal>
+        <CustomModal openButtonIcon={<EyeOutlined className="button-icon" />}>
           <Form
             layout="vertical"
           >

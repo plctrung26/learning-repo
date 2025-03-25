@@ -46,8 +46,8 @@ const columns: TableColumnsType<StaticContentData> = [
         dataIndex: "action",
         key: "action",
         width: 120,
-        fixed: "right", // Freeze this column to the right
-        render: () => <ButtonGroup isDelete={true} isEdit={true} />,
+        fixed: "right",
+        render: () => <ButtonGroup isDelete={true} isEdit={true} useModel={true} />,
     },
 ];
 

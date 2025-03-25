@@ -1,31 +1,32 @@
 import { EditOutlined, EyeOutlined, RestOutlined } from '@ant-design/icons';
 import './ButtonGroup.scss'
 import CustomDrawer from "../CustomDrawer/CustomDrawer";
-import CustomForm from "../CustomForm/CustomForm";
+import CustomModal from '../CutomModal/CustomModal';
 
 interface ButtonGroupProps {
     isEdit?: boolean
     isDelete?: boolean
     isDetail?: boolean
+    useModel?: boolean
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ isEdit, isDelete, isDetail }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ useModel, isEdit, isDelete, isDetail }) => {
     return (
         <div className="button-group-container">
-            {isDetail &&
-                <CustomDrawer toolTipTitle="Detail" openButtonIcon={<EyeOutlined style={{ fontSize: '18px' }} />}>
-                    <CustomForm />
-                </CustomDrawer>
+            {isDetail && useModel &&
+                <CustomModal toolTipTitle="Detail" openButtonIcon={<EyeOutlined style={{ fontSize: '18px' }} />} />
             }
-            {isEdit &&
-                <CustomDrawer toolTipTitle="Update" openButtonIcon={<EditOutlined style={{ fontSize: '18px', color: '#FA5E92' }} />} submitButtonText='Submit'>
-                    <CustomForm />
-                </CustomDrawer>
+            {isDetail && !useModel &&
+                <CustomDrawer toolTipTitle="Detail" openButtonIcon={<EyeOutlined style={{ fontSize: '18px' }} />} />
             }
-            {isDelete &&
-                <CustomDrawer toolTipTitle="Delete" openButtonIcon={<RestOutlined style={{ fontSize: '18px', color: '#596773' }} />}>
-                    <CustomForm />
-                </CustomDrawer>
+            {isEdit && useModel &&
+                <CustomModal toolTipTitle="Update" openButtonIcon={<EditOutlined style={{ fontSize: '18px', color: '#FA5E92' }} />} submitButtonText='Submit' />
+            }
+            {isEdit && !useModel &&
+                <CustomDrawer toolTipTitle="Update" openButtonIcon={<EditOutlined style={{ fontSize: '18px', color: '#FA5E92' }} />} submitButtonText='Submit' />
+            }
+            {isDelete && useModel &&
+                <CustomModal toolTipTitle="Delete" openButtonIcon={<RestOutlined style={{ fontSize: '18px', color: '#596773' }} />} />
             }
         </div>
     )
