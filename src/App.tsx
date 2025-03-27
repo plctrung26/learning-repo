@@ -4,9 +4,13 @@ import CustomDrawer from "./components/CustomDrawer/CustomDrawer";
 import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
 import { EyeOutlined } from '@ant-design/icons';
 import CustomModal from "./components/CutomModal/CustomModal";
+import { useDispatch } from "react-redux";
+import { openModal } from "./redux/modalSlice";
+import { openDrawer } from "./redux/drawerSlice";
 
 function App() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   return (
     <div style={{
       display: 'flex',
@@ -21,6 +25,9 @@ function App() {
       <Button onClick={() => { navigate('/account') }}>Custom Table</Button>
       <Button onClick={() => { navigate('/article') }}>Draggable Table</Button>
       <div>
+        <Button onClick={() => dispatch(openDrawer())}>
+          Open Drawer
+        </Button>
         <CustomDrawer toolTipTitle="Helloooo" openButtonIcon={<EyeOutlined className="button-icon" />}>
           <Form
             layout="vertical"
@@ -52,6 +59,7 @@ function App() {
       </div>
 
       <div>
+        <Button onClick={() => dispatch(openModal())}>Open Modal</Button>
         <CustomModal openButtonIcon={<EyeOutlined className="button-icon" />}>
           <Form
             layout="vertical"

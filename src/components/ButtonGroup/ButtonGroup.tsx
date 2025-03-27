@@ -2,6 +2,7 @@ import { EditOutlined, EyeOutlined, RestOutlined } from '@ant-design/icons';
 import './ButtonGroup.scss'
 import CustomDrawer from "../CustomDrawer/CustomDrawer";
 import CustomModal from '../CutomModal/CustomModal';
+// import { useDispatch } from 'react-redux';
 
 interface ButtonGroupProps {
     isEdit?: boolean
@@ -11,6 +12,7 @@ interface ButtonGroupProps {
 }
 
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ useModel, isEdit, isDelete, isDetail }) => {
+
     return (
         <div className="button-group-container">
             {isDetail && useModel &&

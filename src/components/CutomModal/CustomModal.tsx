@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalProps, Tooltip } from 'antd';
+import React from 'react';
+import { Modal, ModalProps } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { closeModal } from '../../redux/modalSlice';
 
 interface CustomModalProps extends ModalProps {
     children?: React.ReactNode;
@@ -12,22 +15,18 @@ interface CustomModalProps extends ModalProps {
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ toolTipTitle, openButtonShape, modalTitle, children, openButtonText, openButtonIcon, submitButtonText, ...ModalProps }) => {
-    const [modalOpen, setModalOpen] = useState(false);
+
+    const dispatch = useDispatch();
+    const isOpen = useSelector((state: RootState) => state.modal.isOpen);
 
     return (
         <>
-            <Tooltip title={toolTipTitle}>
-                <Button onClick={() => setModalOpen(true)} icon={openButtonIcon} shape={openButtonShape ?? undefined}>
-                    {openButtonText}
-                </Button>
-            </Tooltip>
-
             <Modal
                 title={modalTitle}
                 centered
-                open={modalOpen}
-                onOk={() => setModalOpen(false)}
-                onCancel={() => setModalOpen(false)}
+                open={isOpen}
+                onOk={() => dispatch(closeModal())}
+                onCancel={() => dispatch(closeModal())}
                 footer={false}
                 {...ModalProps}
             >

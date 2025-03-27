@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { Button, Drawer, DrawerProps, Tooltip } from 'antd';
+import { Button, Drawer, DrawerProps } from 'antd';
 import './ShowDrawerButton.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { closeDrawer } from '../../redux/drawerSlice';
 
 interface CustomDrawerProps extends DrawerProps {
     children?: React.ReactNode;
@@ -13,25 +15,15 @@ interface CustomDrawerProps extends DrawerProps {
 }
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
-    const [open, setOpen] = useState(false);
-
-    const showDrawer = () => {
-        setOpen(true);
-    };
-
-    const onClose = () => {
-        setOpen(false);
-    };
+    const dispatch = useDispatch()
+    const isOpen = useSelector((state: RootState) => state.drawer.isDrawerOpen)
 
     return (
         <>
-            <Tooltip title={toolTipTitle}>
-                <Button onClick={showDrawer} icon={openButtonIcon} shape={openButtonShape} className='show-drawer-button'>
-                    {openButtonText}
-                </Button>
-            </Tooltip>
-
-            <Drawer {...drawerProps} title={drawerTitle} onClose={onClose} open={open} footer={<Button >{submitButtonText}</Button>}>
+            <Drawer {...drawerProps}
+                title={drawerTitle} onClose={() => dispatch(closeDrawer())}
+                open={isOpen}
+                footer={<Button >{submitButtonText}</Button>}>
                 {children}
             </Drawer>
         </>

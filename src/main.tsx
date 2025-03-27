@@ -3,15 +3,20 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { Suspense } from "react";
 import routes from "./routes";
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const AppRoutes = () => useRoutes(routes);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
-        <AppRoutes />
-      </Suspense>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AppRoutes />
+        </Suspense>
+      </BrowserRouter>
+    </Provider>
+
   </StrictMode>,
 )
