@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import type { TableProps } from 'antd';
 import './DraggableTable.scss';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableRow from './DraggableRow';
@@ -9,13 +9,19 @@ import DraggableRow from './DraggableRow';
 const DraggableTable = <RecordType extends object & { key: React.Key }>(props: TableProps<RecordType>) => {
     const [data, setData] = useState<RecordType[]>([...(props.dataSource || [])]);
 
+    useEffect(() => {
+        if (props.dataSource) {
+            setData([...props.dataSource])
+        }
+    }, [props.dataSource])
+
     const moveRow = useCallback((fromIndex: number, toIndex: number) => {
         setData((prevData) => {
-            const newData = [...prevData]; // Create a new array to prevent mutation
+            const newData = [...prevData];
             console.log(newData)
-            const movedItem = newData.splice(fromIndex, 1)[0]; // Remove the item
-            newData.splice(toIndex, 0, movedItem); // Insert at new position
-            return newData; // Update state
+            const movedItem = newData.splice(fromIndex, 1)[0];
+            newData.splice(toIndex, 0, movedItem);
+            return newData;
         });
     }, []);
 

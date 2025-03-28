@@ -1,30 +1,40 @@
-import { TableColumnsType, TableProps } from "antd";
+import { TableColumnsType } from "antd";
+import ArticleButtonGroup from "./components/ButtonGroup/ArticleButtonGroup";
+import { ArticleData } from "./DataTypes/ArticleDataType";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import DraggableTable from "./components/CustomTable/DraggableTable";
-import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
-
-interface DataType {
+import { formatDate } from "./Utilities/formatDate";
+interface dataType extends ArticleData {
     key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-    index: number;
 }
 
-const columns: TableColumnsType<DataType> = [
+const columns: TableColumnsType<dataType> = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        showSorterTooltip: { target: 'full-header' },
-
+        title: 'ID',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        defaultSortOrder: 'descend',
+        title: 'Title',
+        dataIndex: 'title',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Author',
+        dataIndex: 'author',
+    },
+    {
+        title: 'Category',
+        dataIndex: 'category',
+        render: (category) => category?.name
+    },
+    {
+        title: 'Created Date',
+        dataIndex: 'createdAt',
+        render: (createdAt) => formatDate(createdAt)
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
     },
     {
         title: "Action",
@@ -32,46 +42,42 @@ const columns: TableColumnsType<DataType> = [
         key: "action",
         width: 120,
         fixed: "right",
-        render: () => <ButtonGroup isDelete={true} isEdit={true} isDetail={true} useModel={false} />,
+        render: () => <ArticleButtonGroup />,
     },
 ];
-
-const data = [
-    {
-        key: 'key_1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        index: 1
-    },
-    {
-        key: 'key_2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        index: 2
-    },
-    {
-        key: 'key_3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        index: 3
-    },
-    {
-        key: 'key_4',
-        name: 'Jim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-        index: 4
-    },
-];
-
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-};
 
 const Article = () => {
+    const [tableData, setTableData] = useState([])
+
+    const fetchData = async (): Promise<dataType[] | any> => {
+        try {
+            const response = await axios.get<dataType[]>("https://dev-api-nurture.vinova.sg/api/v1/admins/articles", {
+                params: {
+                    page: 1,
+                    limit: 25
+                },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
+                }
+            });
+            console.log('Success')
+            return response.data
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return error;
+        }
+    };
+
+    useEffect(() => {
+        fetchData().then((data) => {
+            const testdata = data.data.map((item: dataType) => ({
+                ...item,
+                key: item.id
+            }))
+            setTableData(testdata)
+        });
+    }, [])
+
     return (
         <div style={{
             display: 'flex',
@@ -85,9 +91,7 @@ const Article = () => {
 
             <DraggableTable
                 columns={columns}
-                dataSource={data}
-                onChange={onChange}
-
+                dataSource={tableData}
             ></DraggableTable>
 
         </div>

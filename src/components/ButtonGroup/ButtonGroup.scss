@@ -8,13 +8,21 @@
     .button-group-item {
         border: none;
         width: auto;
-        background-color: white;
+        background-color: transparent;
+        box-shadow: none;
 
         &:hover {
-            background-color: #F5F5F5;
+            background-color: #E8E8EA !important;
             margin: 0;
         }
 
+        .button-icon {
+            color: #FA5E92;
+            font-size: 18px;
+        }
 
+        .delete-button {
+            color: #596773 !important;
+        }
     }
 }

@@ -1,12 +1,13 @@
 import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import CustomDrawer from "./components/CustomDrawer/CustomDrawer";
-import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
 import { EyeOutlined } from '@ant-design/icons';
 import CustomModal from "./components/CutomModal/CustomModal";
 import { useDispatch } from "react-redux";
 import { openModal } from "./redux/modalSlice";
 import { openDrawer } from "./redux/drawerSlice";
+import StaticContentButtonGroup from "./components/ButtonGroup/StaticContentButtonGroup";
+import CustomInput from "./components/FormComponents/CustomInput";
 
 function App() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ function App() {
         </CustomDrawer>
       </div>
       <div>
-        <ButtonGroup isDelete={true} isDetail={true} isEdit={true} />
+        <StaticContentButtonGroup />
       </div>
 
       <div>
@@ -86,7 +87,7 @@ function App() {
           </Form>
         </CustomModal>
       </div>
-
+      <CustomInput />
 
     </div>
   )

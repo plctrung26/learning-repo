@@ -2,7 +2,7 @@ import { TableColumnsType, TableProps } from "antd";
 import CustomTable from "./components/CustomTable/CustomTable"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ButtonGroup from "./components/ButtonGroup/ButtonGroup";
+import StaticContentButtonGroup from "./components/ButtonGroup/StaticContentButtonGroup";
 
 interface StaticContentData {
     key: React.Key;
@@ -47,7 +47,7 @@ const columns: TableColumnsType<StaticContentData> = [
         key: "action",
         width: 120,
         fixed: "right",
-        render: () => <ButtonGroup isDelete={true} isEdit={true} useModel={true} />,
+        render: () => <StaticContentButtonGroup />,
     },
 ];
 

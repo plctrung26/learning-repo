@@ -6,6 +6,8 @@ interface CustomButtonProps extends ButtonProps {
 
 const CustomButton: React.FC<CustomButtonProps> = ({ openType, ...ButtonProps }) => {
 
+
+
     return (
         <Button {...ButtonProps}></Button>
 
