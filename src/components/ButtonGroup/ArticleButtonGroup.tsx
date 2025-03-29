@@ -3,8 +3,7 @@ import './ButtonGroup.scss'
 import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
 import { openDrawer } from '../../redux/drawerSlice';
-import CustomDrawer from '../CustomDrawer/CustomDrawer';
-import CustomInput from '../FormComponents/CustomInput';
+import ArticleDrawer from '../CustomDrawer/ArticleDrawer';
 
 const ArticleButtonGroup = () => {
 
@@ -18,9 +17,7 @@ const ArticleButtonGroup = () => {
                 shape='circle'
                 onClick={() => dispatch(openDrawer())}
             />
-            <CustomDrawer >
-                <CustomInput value={"Test"} />
-            </CustomDrawer>
+            <ArticleDrawer />
             <Button
                 icon={<RestOutlined className='button-icon delete-button' />}
                 className='button-group-item'
