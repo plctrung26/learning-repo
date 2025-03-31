@@ -42,7 +42,7 @@ const columns: TableColumnsType<dataType> = [
         key: "action",
         width: 120,
         fixed: "right",
-        render: () => <ArticleButtonGroup />,
+        render: (_, record) => <ArticleButtonGroup id={record.id} />,
     },
 ];
 

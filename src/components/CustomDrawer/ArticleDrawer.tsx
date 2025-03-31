@@ -1,23 +1,45 @@
 import { Form } from "antd";
-import CustomDrawer from "./CustomDrawer"
+import CustomDrawer from "./CustomDrawer";
 import CustomInput from "../FormComponents/CustomInput";
 import CustomSelect from "../FormComponents/CustomSelect";
 import CustomUpload from "../FormComponents/CustomUpload";
 import CustomTextEditor from "../FormComponents/CustomTextEditor";
+import { ArticleData } from "../../DataTypes/ArticleDataType";
+import { useEffect, useState } from "react";
 
-const ArticleDrawer = () => {
+const defaultValue: ArticleData = {
+    id: "",
+    title: "Helllooooo",
+    author: "",
+    status: "",
+    category: {
+        id: "",
+        name: ""
+    },
+    timeToRead: 0,
+    picture: {
+        uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
+        types: "image/jpeg",
+        createdAt: new Date().toISOString(),
+    },
+    content: <p></p>
+};
+
+const ArticleDrawer = ({ data = defaultValue }: { data?: ArticleData }) => {
     const [form] = Form.useForm();
-    const onFinish = () => {
-        console.log("Done")
-    }
+    const [formReady, setFormReady] = useState(false)
+
+    useEffect(() => {
+        setFormReady(true)
+    }, [])
+
+    useEffect(() => {
+        form.setFieldsValue(data)
+    }, [data, formReady, form])
 
     return (
         <CustomDrawer>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-            >
+            <Form form={form} layout="vertical" >
                 <Form.Item
                     label="Title"
                     name="title"
@@ -48,7 +70,7 @@ const ArticleDrawer = () => {
                 </Form.Item>
                 <Form.Item
                     label="Duration (Ex: 3 mins)"
-                    name="duration"
+                    name="timeToRead"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
                     <CustomSelect />
@@ -61,15 +83,15 @@ const ArticleDrawer = () => {
                     <CustomUpload />
                 </Form.Item>
                 <Form.Item
-                    label="Image"
-                    name="image"
+                    label="Content"
+                    name="content"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
                     <CustomTextEditor />
                 </Form.Item>
             </Form>
         </CustomDrawer>
-    )
-}
+    );
+};
 
-export default ArticleDrawer
+export default ArticleDrawer;
