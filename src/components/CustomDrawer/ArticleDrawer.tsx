@@ -1,4 +1,4 @@
-import { Form } from "antd";
+import { Form, Input } from "antd";
 import CustomDrawer from "./CustomDrawer";
 import CustomInput from "../FormComponents/CustomInput";
 import CustomSelect from "../FormComponents/CustomSelect";
@@ -6,36 +6,85 @@ import CustomUpload from "../FormComponents/CustomUpload";
 import CustomTextEditor from "../FormComponents/CustomTextEditor";
 import { ArticleData } from "../../DataTypes/ArticleDataType";
 import { useEffect, useState } from "react";
+// import { title } from "process";
 
-const defaultValue: ArticleData = {
-    id: "",
-    title: "Helllooooo",
-    author: "",
-    status: "",
-    category: {
-        id: "",
-        name: ""
-    },
-    timeToRead: 0,
-    picture: {
-        uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
-        types: "image/jpeg",
-        createdAt: new Date().toISOString(),
-    },
-    content: <p></p>
-};
+// const defaultValue: ArticleData = {
+//     id: "",
+//     title: "Helllooooo",
+//     author: "",
+//     status: "",
+//     category: {
+//         id: "",
+//         name: ""
+//     },
+//     timeToRead: 0,
+//     picture: {
+//         uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
+//         types: "image/jpeg",
+//         createdAt: new Date().toISOString(),
+//     },
+//     content: ""
+// };
 
-const ArticleDrawer = ({ data = defaultValue }: { data?: ArticleData }) => {
+// const extractValidData = (defaultObj: ArticleData, receivedObj: ArticleData | undefined): ArticleData => {
+//     return {
+//         id: receivedObj?.id ?? defaultObj.id,
+//         title: receivedObj?.title ?? defaultObj.title,
+//         author: receivedObj?.author ?? defaultObj.author,
+//         status: receivedObj?.status ?? defaultObj.status,
+//         timeToRead: receivedObj?.timeToRead ?? defaultObj.timeToRead,
+//         content: receivedObj?.content ?? defaultObj.content,
+//         category: {
+//             id: receivedObj?.category?.id ?? defaultObj.category?.id,
+//             name: receivedObj?.category?.name ?? defaultObj.category?.name
+//         },
+//         picture: {
+//             uri: receivedObj?.picture?.uri ?? defaultObj.picture?.uri,
+//             types: receivedObj?.picture?.types ?? defaultObj.picture?.types,
+//             createdAt: receivedObj?.picture?.createdAt ?? defaultObj.picture?.createdAt
+//         }
+//     };
+// };
+
+const ArticleDrawer = ({ data }: { data?: ArticleData | undefined }) => {
     const [form] = Form.useForm();
-    const [formReady, setFormReady] = useState(false)
+    const [currentData, setCurrentData] = useState<ArticleData | undefined>({
+
+    })
 
     useEffect(() => {
-        setFormReady(true)
-    }, [])
+        setCurrentData(data)
+    }, [data]);
 
     useEffect(() => {
-        form.setFieldsValue(data)
-    }, [data, formReady, form])
+        console.log("hhhhhhhhhhhhhhhhhhhh", currentData?.status)
+        if (!currentData) return
+
+        console.log(currentData)
+        const test = {
+            id: "",
+            title: currentData?.title,
+            author: "sddfsdffd",
+            status: currentData?.status,
+            category: {
+                id: "",
+                name: ""
+            },
+            timeToRead: 0,
+            picture: {
+                uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
+                types: "image/jpeg",
+                createdAt: new Date().toISOString(),
+            },
+            content: ""
+        }
+
+        console.log("test", test)
+        form.setFieldsValue({ title: test.title })
+        const test2 = form.getFieldsValue()
+        console.log(test2)
+
+    }, [currentData])
 
     return (
         <CustomDrawer>
@@ -45,7 +94,7 @@ const ArticleDrawer = ({ data = defaultValue }: { data?: ArticleData }) => {
                     name="title"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
-                    <CustomInput placeholder="Title" />
+                    <Input placeholder="Title" />
                 </Form.Item>
                 <Form.Item
                     label="Author"
@@ -63,7 +112,7 @@ const ArticleDrawer = ({ data = defaultValue }: { data?: ArticleData }) => {
                 </Form.Item>
                 <Form.Item
                     label="Category"
-                    name="category"
+                    name="category.id"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
                     <CustomSelect />

@@ -2,11 +2,11 @@ import { ReactNode } from "react"
 
 export type ArticleData = {
     // key: React.Key;
-    id: string
+    id?: string
     slug?: string
     title?: string
     content?: ReactNode
-    status?: string
+    status?: string | undefined
     type?: string
     author?: string
     categoryId?: string
