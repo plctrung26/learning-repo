@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DraggableTable from "./components/CustomTable/DraggableTable";
 import { formatDate } from "./Utilities/formatDate";
+import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
 interface dataType extends ArticleData {
     key: React.Key;
 }
@@ -93,7 +94,7 @@ const Article = () => {
                 columns={columns}
                 dataSource={tableData}
             ></DraggableTable>
-
+            <ArticleDrawer />
         </div>
     )
 }

@@ -6,6 +6,7 @@ import CustomUpload from "../FormComponents/CustomUpload";
 import CustomTextEditor from "../FormComponents/CustomTextEditor";
 import { ArticleData } from "../../DataTypes/ArticleDataType";
 import { useEffect, useState } from "react";
+import axios from "axios";
 // import { title } from "process";
 
 // const defaultValue: ArticleData = {
@@ -45,25 +46,40 @@ import { useEffect, useState } from "react";
 //         }
 //     };
 // };
-
-const ArticleDrawer = ({ data }: { data?: ArticleData | undefined }) => {
+const id = "56c25d14-1838-4f5d-8805-c61113bdf1b0"
+const ArticleDrawer = () => {
     const [form] = Form.useForm();
     const [currentData, setCurrentData] = useState<ArticleData | undefined>({
 
     })
+    const fetchData = async (): Promise<ArticleData | any> => {
+        try {
+            const response = await axios.get<ArticleData>(`https://dev-api-nurture.vinova.sg/api/v1/admins/articles/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
+                }
+            });
+            console.log('Success')
+            return response.data
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return error;
+        }
+    };
 
     useEffect(() => {
-        setCurrentData(data)
-    }, [data]);
+        fetchData().then(res => {
+            setCurrentData(res.data)
+        })
+    }, []);
 
     useEffect(() => {
-        console.log("hhhhhhhhhhhhhhhhhhhh", currentData?.status)
         if (!currentData) return
-
+        const fakeTitle = "I am Fake"
         console.log(currentData)
         const test = {
             id: "",
-            title: currentData?.title,
+            title: currentData.title,
             author: "sddfsdffd",
             status: currentData?.status,
             category: {

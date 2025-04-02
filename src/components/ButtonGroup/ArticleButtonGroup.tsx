@@ -45,7 +45,7 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                     dispatch(openDrawer())
                 }}
             />
-            <ArticleDrawer data={formData} />
+
             <Button
                 icon={<RestOutlined className='button-icon delete-button' />}
                 className='button-group-item'
