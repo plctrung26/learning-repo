@@ -1,8 +1,7 @@
 import { Button, Drawer, DrawerProps } from 'antd';
 import './ShowDrawerButton.scss'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { closeDrawer } from '../../redux/drawerSlice';
+import { useDispatch } from 'react-redux';
+import { closeArticleDrawer } from '../../redux/articleStore/articleDrawerSlice';
 
 interface CustomDrawerProps extends DrawerProps {
     children?: React.ReactNode;
@@ -16,13 +15,11 @@ interface CustomDrawerProps extends DrawerProps {
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
     const dispatch = useDispatch()
-    const isOpen = useSelector((state: RootState) => state.drawer.isDrawerOpen)
 
     return (
         <>
             <Drawer {...drawerProps}
-                title={drawerTitle} onClose={() => dispatch(closeDrawer())}
-                open={isOpen}
+                title={drawerTitle} onClose={() => dispatch(closeArticleDrawer())}
                 footer={<Button >{submitButtonText}</Button>}>
                 {children}
             </Drawer>

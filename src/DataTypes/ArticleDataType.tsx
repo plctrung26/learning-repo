@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
 export type ArticleData = {
     // key: React.Key;
-    id?: string
+    id: string
     slug?: string
     title?: string
     content?: ReactNode

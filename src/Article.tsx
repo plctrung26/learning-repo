@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import DraggableTable from "./components/CustomTable/DraggableTable";
 import { formatDate } from "./Utilities/formatDate";
 import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
+import { Provider } from "react-redux";
+import articleStore from "./redux/articleStore/articleStore";
 interface dataType extends ArticleData {
     key: React.Key;
 }
@@ -80,22 +82,25 @@ const Article = () => {
     }, [])
 
     return (
-        <div style={{
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            boxSizing: 'border-box'
-        }}  >
+        <Provider store={articleStore}>
+            <div style={{
+                display: 'flex',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                boxSizing: 'border-box'
+            }}  >
 
-            <DraggableTable
-                columns={columns}
-                dataSource={tableData}
-            ></DraggableTable>
-            <ArticleDrawer />
-        </div>
+                <DraggableTable
+                    columns={columns}
+                    dataSource={tableData}
+                ></DraggableTable>
+                <ArticleDrawer />
+            </div>
+        </Provider>
+
     )
 }
 export default Article;

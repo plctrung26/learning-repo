@@ -7,51 +7,15 @@ import CustomTextEditor from "../FormComponents/CustomTextEditor";
 import { ArticleData } from "../../DataTypes/ArticleDataType";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { title } from "process";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/articleStore/articleStore";
 
-// const defaultValue: ArticleData = {
-//     id: "",
-//     title: "Helllooooo",
-//     author: "",
-//     status: "",
-//     category: {
-//         id: "",
-//         name: ""
-//     },
-//     timeToRead: 0,
-//     picture: {
-//         uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
-//         types: "image/jpeg",
-//         createdAt: new Date().toISOString(),
-//     },
-//     content: ""
-// };
-
-// const extractValidData = (defaultObj: ArticleData, receivedObj: ArticleData | undefined): ArticleData => {
-//     return {
-//         id: receivedObj?.id ?? defaultObj.id,
-//         title: receivedObj?.title ?? defaultObj.title,
-//         author: receivedObj?.author ?? defaultObj.author,
-//         status: receivedObj?.status ?? defaultObj.status,
-//         timeToRead: receivedObj?.timeToRead ?? defaultObj.timeToRead,
-//         content: receivedObj?.content ?? defaultObj.content,
-//         category: {
-//             id: receivedObj?.category?.id ?? defaultObj.category?.id,
-//             name: receivedObj?.category?.name ?? defaultObj.category?.name
-//         },
-//         picture: {
-//             uri: receivedObj?.picture?.uri ?? defaultObj.picture?.uri,
-//             types: receivedObj?.picture?.types ?? defaultObj.picture?.types,
-//             createdAt: receivedObj?.picture?.createdAt ?? defaultObj.picture?.createdAt
-//         }
-//     };
-// };
-const id = "56c25d14-1838-4f5d-8805-c61113bdf1b0"
 const ArticleDrawer = () => {
     const [form] = Form.useForm();
-    const [currentData, setCurrentData] = useState<ArticleData | undefined>({
+    const [currentData, setCurrentData] = useState<ArticleData | undefined>()
+    const id = useSelector((state: RootState) => state.drawer.id)
+    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen)
 
-    })
     const fetchData = async (): Promise<ArticleData | any> => {
         try {
             const response = await axios.get<ArticleData>(`https://dev-api-nurture.vinova.sg/api/v1/admins/articles/${id}`, {
@@ -68,14 +32,14 @@ const ArticleDrawer = () => {
     };
 
     useEffect(() => {
+        console.log("HHEHEHEHEHHE")
         fetchData().then(res => {
             setCurrentData(res.data)
         })
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (!currentData) return
-        const fakeTitle = "I am Fake"
         console.log(currentData)
         const test = {
             id: "",
@@ -96,14 +60,14 @@ const ArticleDrawer = () => {
         }
 
         console.log("test", test)
-        form.setFieldsValue({ title: test.title })
+        form.setFieldsValue(test )
         const test2 = form.getFieldsValue()
         console.log(test2)
 
     }, [currentData])
 
     return (
-        <CustomDrawer>
+        <CustomDrawer open={isOpen}>
             <Form form={form} layout="vertical" >
                 <Form.Item
                     label="Title"
