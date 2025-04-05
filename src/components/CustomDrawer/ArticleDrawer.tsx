@@ -7,14 +7,17 @@ import CustomTextEditor from "../FormComponents/CustomTextEditor";
 import { ArticleData } from "../../DataTypes/ArticleDataType";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/articleStore/articleStore";
+import { closeArticleDrawer } from "../../redux/articleStore/articleDrawerSlice";
 
 const ArticleDrawer = () => {
     const [form] = Form.useForm();
     const [currentData, setCurrentData] = useState<ArticleData | undefined>()
     const id = useSelector((state: RootState) => state.drawer.id)
     const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen)
+    const contentValue = Form.useWatch("content", form);
+    const dispatch = useDispatch()
 
     const fetchData = async (): Promise<ArticleData | any> => {
         try {
@@ -23,7 +26,7 @@ const ArticleDrawer = () => {
                     Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
                 }
             });
-            console.log('Success')
+            // console.log('Success')
             return response.data
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -32,7 +35,6 @@ const ArticleDrawer = () => {
     };
 
     useEffect(() => {
-        console.log("HHEHEHEHEHHE")
         fetchData().then(res => {
             setCurrentData(res.data)
         })
@@ -40,34 +42,29 @@ const ArticleDrawer = () => {
 
     useEffect(() => {
         if (!currentData) return
-        console.log(currentData)
         const test = {
-            id: "",
+            id: currentData.id,
             title: currentData.title,
-            author: "sddfsdffd",
+            author: currentData.author,
             status: currentData?.status,
-            category: {
-                id: "",
-                name: ""
-            },
-            timeToRead: 0,
+            category: currentData.category?.name,
+            timeToRead: currentData.timeToRead,
             picture: {
-                uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F0b8821d6-1a35-4986-af30-232f74a04b51_download+(2).jpeg",
+                uri: currentData.picture?.uri || null,
                 types: "image/jpeg",
-                createdAt: new Date().toISOString(),
+                createdAt: currentData.picture?.createdAt,
             },
-            content: ""
+            content: currentData.content
         }
-
-        console.log("test", test)
-        form.setFieldsValue(test )
-        const test2 = form.getFieldsValue()
-        console.log(test2)
-
+        form.setFieldsValue(test)
     }, [currentData])
 
     return (
-        <CustomDrawer open={isOpen}>
+        <CustomDrawer open={isOpen} onClose={() => {
+            form.resetFields();
+            setCurrentData(undefined);
+            dispatch(closeArticleDrawer())
+        }}>
             <Form form={form} layout="vertical" >
                 <Form.Item
                     label="Title"
@@ -92,7 +89,7 @@ const ArticleDrawer = () => {
                 </Form.Item>
                 <Form.Item
                     label="Category"
-                    name="category.id"
+                    name="category"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
                     <CustomSelect />
@@ -106,7 +103,7 @@ const ArticleDrawer = () => {
                 </Form.Item>
                 <Form.Item
                     label="Image"
-                    name="image"
+                    name="picture"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
                     <CustomUpload />
@@ -116,7 +113,7 @@ const ArticleDrawer = () => {
                     name="content"
                     rules={[{ required: true, message: "This field is required." }]}
                 >
-                    <CustomTextEditor />
+                    <CustomTextEditor text={contentValue} />
                 </Form.Item>
             </Form>
         </CustomDrawer>

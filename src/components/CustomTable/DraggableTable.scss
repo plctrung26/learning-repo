@@ -84,8 +84,8 @@ html {
             background-color: #FFFFFF !important;
             pointer-events: auto;
 
-            &:hover {
-                background-color: inherit !important;
+            .ant-table-cell-row-hover {
+                background-color: #FFFFFF !important;
             }
 
             .ant-table-cell-fix-right {

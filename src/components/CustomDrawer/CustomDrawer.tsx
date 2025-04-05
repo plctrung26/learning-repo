@@ -19,7 +19,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ openButtonShape, drawerTitl
     return (
         <>
             <Drawer {...drawerProps}
-                title={drawerTitle} onClose={() => dispatch(closeArticleDrawer())}
+                title={drawerTitle} onClose={() => { dispatch(closeArticleDrawer()) }}
                 footer={<Button >{submitButtonText}</Button>}>
                 {children}
             </Drawer>

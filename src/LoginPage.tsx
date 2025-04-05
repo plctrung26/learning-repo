@@ -15,7 +15,7 @@ const LoginPage = () => {
             console.log("Login successful:", JSON.stringify(response.data.data.tokens.refreshToken));
             message.success("Login successful!");
             sessionStorage.setItem("access_token", response.data.data.tokens.accessToken);
-            navigate("/static-content", { replace: true })
+            navigate("/article", { replace: true })
         } catch (error) {
             console.error("Login failed:", error);
             message.error("Invalid credentials. Please try again.");

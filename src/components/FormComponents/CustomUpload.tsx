@@ -1,6 +1,6 @@
 import { GetProp, Image, Upload, UploadFile, UploadProps } from "antd"
 import { PlusOutlined } from '@ant-design/icons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const getBase64 = (file: FileType): Promise<string> =>
@@ -11,47 +11,23 @@ const getBase64 = (file: FileType): Promise<string> =>
         reader.onerror = (error) => reject(error);
     });
 
-const CustomUpload: React.FC<UploadProps> = () => {
+interface image {
+    picture: {
+        uri: string;
+        type: string;
+        createdAt: string;
+        metadata?: {
+            thumb?: { uri: string };
+            medium?: { uri: string };
+        };
+    };
+}
+
+
+const CustomUpload: React.FC<UploadProps & { value?: image['picture'] | null }> = ({ value, ...UploadProps }) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
-    const [fileList, setFileList] = useState<UploadFile[]>([
-        {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-            uid: '-2',
-            name: 'image.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-            uid: '-3',
-            name: 'image.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-            uid: '-4',
-            name: 'image.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-            uid: '-xxx',
-            percent: 50,
-            name: 'image.png',
-            status: 'uploading',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-            uid: '-5',
-            name: 'image.png',
-            status: 'error',
-        },
-    ]);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
@@ -62,8 +38,36 @@ const CustomUpload: React.FC<UploadProps> = () => {
         setPreviewOpen(true);
     };
 
-    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-        setFileList(newFileList);
+    useEffect(() => {
+        console.log("This is value", value)
+        if (value?.uri) {
+            setFileList([
+                {
+                    uid: "-1",
+                    name: value.uri.split('/').pop() || 'image.webp',
+                    url: value.uri,
+                    type: "image/webp",
+                },
+            ]);
+            console.log("Im here")
+        } else {
+            setFileList([])
+        }
+    }, [value]);
+
+    useEffect(() => {
+        console.log("This is filelist", fileList)
+    }, [fileList])
+
+
+    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+        setFileList(newFileList)
+        console.log("This is new filelist", newFileList)
+    };
+
+    const handleRemove: UploadProps['onRemove'] = () => {
+        setFileList([])
+    };
 
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
@@ -75,12 +79,16 @@ const CustomUpload: React.FC<UploadProps> = () => {
     return (
         <>
             <Upload
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                {...UploadProps}
+                fileList={fileList}
+                action={undefined}
                 listType="picture-card"
                 onPreview={handlePreview}
                 onChange={handleChange}
+                onRemove={handleRemove}
+
             >
-                {fileList.length >= 8 ? null : uploadButton}
+                {fileList.length >= 1 ? null : uploadButton}
             </Upload>
             {
                 previewImage && (
