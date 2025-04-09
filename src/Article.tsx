@@ -8,6 +8,8 @@ import { formatDate } from "./Utilities/formatDate";
 import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
 import { Provider } from "react-redux";
 import articleStore from "./redux/articleStore/articleStore";
+import ArticleUpdateModal from "./components/CutomModal/ArticleUpdateModal";
+import ArticleDeleteModal from "./components/CutomModal/ArticleDeleteModal";
 interface dataType extends ArticleData {
     key: React.Key;
 }
@@ -98,6 +100,8 @@ const Article = () => {
                     dataSource={tableData}
                 ></DraggableTable>
                 <ArticleDrawer />
+                <ArticleDeleteModal />
+
             </div>
         </Provider>
 

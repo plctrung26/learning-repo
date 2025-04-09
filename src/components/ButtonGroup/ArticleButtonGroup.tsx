@@ -2,7 +2,7 @@ import { EditOutlined, RestOutlined } from '@ant-design/icons';
 import './ButtonGroup.scss'
 import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
-import { openArticleDrawer, setArticleId } from '../../redux/articleStore/articleDrawerSlice';
+import { openArticleDrawer, openArticleModal, setArticleId } from '../../redux/articleStore/articleDrawerSlice';
 
 const ArticleButtonGroup = ({ id }: { id: string }) => {
     const dispatch = useDispatch()
@@ -13,7 +13,6 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 className='button-group-item'
                 shape='circle'
                 onClick={() => {
-                    console.log("Clicked")
                     dispatch(setArticleId(id))
                     dispatch(openArticleDrawer())
                 }}
@@ -23,6 +22,10 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 icon={<RestOutlined className='button-icon delete-button' />}
                 className='button-group-item'
                 shape='circle'
+                onClick={() => {
+                    dispatch(setArticleId(id))
+                    dispatch(openArticleModal(id))
+                }}
             />
         </div>
     )

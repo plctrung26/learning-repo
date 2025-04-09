@@ -11,16 +11,21 @@ interface CustomDrawerProps extends DrawerProps {
     toolTipTitle?: string
     drawerTitle?: string
     openButtonShape?: "default" | "circle" | "round" | undefined
+    onSubmit: () => void
 }
 
-const CustomDrawer: React.FC<CustomDrawerProps> = ({ openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
+const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
     const dispatch = useDispatch()
 
     return (
         <>
             <Drawer {...drawerProps}
                 title={drawerTitle} onClose={() => { dispatch(closeArticleDrawer()) }}
-                footer={<Button >{submitButtonText}</Button>}>
+                footer={<Button
+                    onClick={onSubmit}
+                    style={{
+                        width: "100%"
+                    }}>{submitButtonText}</Button>}>
                 {children}
             </Drawer>
         </>

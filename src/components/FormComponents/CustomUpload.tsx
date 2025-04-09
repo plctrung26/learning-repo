@@ -39,7 +39,6 @@ const CustomUpload: React.FC<UploadProps & { value?: image['picture'] | null }> 
     };
 
     useEffect(() => {
-        console.log("This is value", value)
         if (value?.uri) {
             setFileList([
                 {
@@ -49,20 +48,13 @@ const CustomUpload: React.FC<UploadProps & { value?: image['picture'] | null }> 
                     type: "image/webp",
                 },
             ]);
-            console.log("Im here")
         } else {
             setFileList([])
         }
     }, [value]);
 
-    useEffect(() => {
-        console.log("This is filelist", fileList)
-    }, [fileList])
-
-
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList)
-        console.log("This is new filelist", newFileList)
     };
 
     const handleRemove: UploadProps['onRemove'] = () => {
