@@ -9,6 +9,7 @@ import StaticContentButtonGroup from "./components/ButtonGroup/StaticContentButt
 import CustomInput from "./components/FormComponents/CustomInput";
 import CustomTextEditor from "./components/FormComponents/CustomTextEditor";
 import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
+import React from "react";
 
 function App() {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ function App() {
 
       </div>
       <div style={{ width: "500px", height: "600px" }}>
-        <CustomTextEditor />
+        <CustomTextEditor text={""} />
       </div>
     </div>
 
