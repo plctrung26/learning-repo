@@ -1,6 +1,7 @@
 import { GetProp, Image, Upload, UploadFile, UploadProps } from "antd"
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
+import React from "react";
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const getBase64 = (file: FileType): Promise<string> =>

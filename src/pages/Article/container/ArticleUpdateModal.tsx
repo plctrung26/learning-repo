@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/articleStore/articleStore';
-import { cancelSubmit, updateArticleData } from '../../redux/articleStore/articleDrawerSlice';
-import CustomModal from './CustomModal';
+import { RootState } from '../../../redux/articleStore/articleStore';
+import { cancelSubmit, updateArticleData } from '../../../redux/articleStore/articleDrawerSlice';
+import CustomModal from '../../../components/CutomModal/CustomModal';
 import { useEffect } from 'react';
+
 
 const ArticleUpdateModal = ({ formData }: { formData: any }) => {
 

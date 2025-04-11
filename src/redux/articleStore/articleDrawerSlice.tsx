@@ -7,6 +7,7 @@ interface UiState {
     isSubmitOpen: boolean
     isUpdating: boolean
     updateError: string | null
+    isDelete: boolean
 }
 
 const initialState: UiState = {
@@ -16,6 +17,7 @@ const initialState: UiState = {
     isSubmitOpen: false,
     isUpdating: false,
     updateError: null,
+    isDelete: false
 };
 
 const articleDrawerSlice = createSlice({
@@ -49,7 +51,7 @@ const articleDrawerSlice = createSlice({
         cancelSubmit: (state) => {
             state.isSubmitOpen = false;
         },
-        updateArticleData: (state, action: PayloadAction<{ id: string; data: any }>) => {
+        updateArticleData: (state, _action: PayloadAction<{ id: string; data: any }>) => {
             state.isUpdating = true;
             state.updateError = null;
         },
@@ -59,10 +61,20 @@ const articleDrawerSlice = createSlice({
         updateArticleDataFailure: (state, action) => {
             state.isUpdating = false;
             state.updateError = action.payload;
-        }
+        },
+        confirmDelete: (state, _action: PayloadAction<{ ids: string[] }>) => {
+            state.isDelete = true
+        },
+        deleteArticleDataSuccess: (state) => {
+            state.isDelete = false
+        },
+        deleteArticleDataFailure: (state, action) => {
+            state.isDelete = false
+            state.updateError = action.payload;
+        },
 
     },
 });
 
-export const { updateArticleDataFailure, updateArticleDataSuccess, updateArticleData, cancelSubmit, submit, setArticleId, openArticleDrawer, closeArticleDrawer, openArticleModal, closeArticleModal } = articleDrawerSlice.actions;
+export const { deleteArticleDataFailure, deleteArticleDataSuccess, confirmDelete, updateArticleDataFailure, updateArticleDataSuccess, updateArticleData, cancelSubmit, submit, setArticleId, openArticleDrawer, closeArticleDrawer, openArticleModal, closeArticleModal } = articleDrawerSlice.actions;
 export default articleDrawerSlice.reducer;

@@ -1,5 +1,5 @@
 import { Button, Form, Input, message } from "antd"
-import './styles/LoginPage.scss'
+import '../styles/LoginPage.scss'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import { TableColumnsType, TableProps } from "antd";
-import CustomTable from "./components/CustomTable/CustomTable"
 import React from "react";
+import CustomTable from "../components/CustomTable/CustomTable";
 
 interface DataType {
     key: React.Key;
@@ -68,7 +68,7 @@ const columns: TableColumnsType<DataType> = [
         dataIndex: "action",
         key: "action",
         width: 120,
-        fixed: "right", // Freeze this column to the right
+        fixed: "right",
         render: () => <button>Edit</button>,
     },
 ];

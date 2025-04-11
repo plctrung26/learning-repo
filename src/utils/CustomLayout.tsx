@@ -1,7 +1,7 @@
 import { Layout, theme } from "antd";
 import { Outlet } from "react-router-dom";
-import CustomHeader from "./components/CustomHeader/CustomHeader";
-import CustomSider from "./components/CustomSider/CustomSider";
+import CustomSider from "../components/CustomSider/CustomSider";
+import CustomHeader from "../components/CustomHeader/CustomHeader";
 
 const { Content, Sider } = Layout;
 

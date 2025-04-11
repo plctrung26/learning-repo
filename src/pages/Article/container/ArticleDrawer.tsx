@@ -1,17 +1,17 @@
 import { Form, Input } from "antd";
-import CustomDrawer from "./CustomDrawer";
-import CustomInput from "../FormComponents/CustomInput";
-import CustomSelect from "../FormComponents/CustomSelect";
-import CustomUpload from "../FormComponents/CustomUpload";
-import CustomTextEditor from "../FormComponents/CustomTextEditor";
-import { ArticleData } from "../../DataTypes/ArticleDataType";
+import CustomDrawer from "../../../components/CustomDrawer/CustomDrawer";
+import CustomInput from "../../../components/FormComponents/CustomInput";
+import CustomSelect from "../../../components/FormComponents/CustomSelect";
+import CustomUpload from "../../../components/FormComponents/CustomUpload";
+import CustomTextEditor from "../../../components/FormComponents/CustomTextEditor";
+import { ArticleData } from "../../../types/article/ArticleDataType";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/articleStore/articleStore";
-import { closeArticleDrawer, submit } from "../../redux/articleStore/articleDrawerSlice";
-import ArticleUpdateModal from "../CutomModal/ArticleUpdateModal";
-
+import { RootState } from "../../../redux/articleStore/articleStore";
+import { closeArticleDrawer, submit } from "../../../redux/articleStore/articleDrawerSlice";
+import ArticleDeleteModal from "./ArticleDeleteModal";
+import ArticleUpdateModal from "./ArticleUpdateModal";
 const ArticleDrawer = () => {
     const [form] = Form.useForm();
     const [currentData, setCurrentData] = useState<ArticleData | undefined>()
@@ -19,7 +19,7 @@ const ArticleDrawer = () => {
     const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "drawer")
     const contentValue = Form.useWatch("content", form);
     const [pendingFormData, setPendingFormData] = useState<any>(null);
-
+    console.log(id)
     const dispatch = useDispatch()
 
     const fetchData = async (): Promise<ArticleData | any> => {
@@ -138,6 +138,7 @@ const ArticleDrawer = () => {
                 </Form>
             </CustomDrawer>
             <ArticleUpdateModal formData={pendingFormData} />
+            <ArticleDeleteModal formData={id} />
         </>
 
     );

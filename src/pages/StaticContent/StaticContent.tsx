@@ -1,8 +1,9 @@
 import { TableColumnsType, TableProps } from "antd";
-import CustomTable from "./components/CustomTable/CustomTable"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import StaticContentButtonGroup from "./components/ButtonGroup/StaticContentButtonGroup";
+import React from "react";
+import StaticContentButtonGroup from "./container/StaticContentButtonGroup";
+import CustomTable from "../../components/CustomTable/CustomTable";
 
 interface StaticContentData {
     key: React.Key;

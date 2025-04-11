@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableRow from './DraggableRow';
+import React from 'react';
 
 const DraggableTable = <RecordType extends object & { key: React.Key }>(props: TableProps<RecordType>) => {
     const [data, setData] = useState<RecordType[]>([...(props.dataSource || [])]);

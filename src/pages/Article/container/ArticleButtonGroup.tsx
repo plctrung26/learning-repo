@@ -1,30 +1,34 @@
 import { EditOutlined, RestOutlined } from '@ant-design/icons';
-import './ButtonGroup.scss'
 import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
-import CustomModal from '../CutomModal/CustomModal';
-import { openModal } from '../../redux/modalSlice';
+import { openArticleDrawer, openArticleModal, setArticleId } from '../../../redux/articleStore/articleDrawerSlice';
+import '../../../components/ButtonGroup/ButtonGroup.scss'
 
-const StaticContentButtonGroup = () => {
-
+const ArticleButtonGroup = ({ id }: { id: string }) => {
     const dispatch = useDispatch()
-
     return (
         <div className="button-group-container">
             <Button
                 icon={<EditOutlined className='button-icon' />}
                 className='button-group-item'
                 shape='circle'
-                onClick={() => dispatch(openModal())}
+                onClick={() => {
+                    dispatch(setArticleId(id))
+                    dispatch(openArticleDrawer())
+                }}
             />
-            <CustomModal />
+
             <Button
                 icon={<RestOutlined className='button-icon delete-button' />}
                 className='button-group-item'
                 shape='circle'
+                onClick={() => {
+                    dispatch(setArticleId(id))
+                    dispatch(openArticleModal(id))
+                }}
             />
         </div>
     )
 }
 
-export default StaticContentButtonGroup
+export default ArticleButtonGroup

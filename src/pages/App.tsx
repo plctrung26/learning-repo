@@ -1,15 +1,14 @@
 import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined } from '@ant-design/icons';
-import CustomModal from "./components/CutomModal/CustomModal";
 import { useDispatch } from "react-redux";
-import { openModal } from "./redux/modalSlice";
-import { openDrawer } from "./redux/drawerSlice";
-import StaticContentButtonGroup from "./components/ButtonGroup/StaticContentButtonGroup";
-import CustomInput from "./components/FormComponents/CustomInput";
-import CustomTextEditor from "./components/FormComponents/CustomTextEditor";
-import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
-import React from "react";
+import { openDrawer } from "../redux/drawerSlice";
+import ArticleDrawer from "./Article/container/ArticleDrawer";
+import StaticContentButtonGroup from "./StaticContent/container/StaticContentButtonGroup";
+import { openModal } from "../redux/modalSlice";
+import CustomModal from "../components/CutomModal/CustomModal";
+import CustomInput from "../components/FormComponents/CustomInput";
+import CustomTextEditor from "../components/FormComponents/CustomTextEditor";
 
 function App() {
   const navigate = useNavigate();

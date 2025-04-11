@@ -1,15 +1,15 @@
 import { TableColumnsType } from "antd";
-import ArticleButtonGroup from "./components/ButtonGroup/ArticleButtonGroup";
-import { ArticleData } from "./DataTypes/ArticleDataType";
+import { ArticleData } from "../../types/article/ArticleDataType";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import DraggableTable from "./components/CustomTable/DraggableTable";
-import { formatDate } from "./Utilities/formatDate";
-import ArticleDrawer from "./components/CustomDrawer/ArticleDrawer";
+import DraggableTable from "../../components/CustomTable/DraggableTable";
+import { formatDate } from "../../utils/formatDate";
+import ArticleDrawer from "./container/ArticleDrawer";
 import { Provider } from "react-redux";
-import articleStore from "./redux/articleStore/articleStore";
-import ArticleUpdateModal from "./components/CutomModal/ArticleUpdateModal";
-import ArticleDeleteModal from "./components/CutomModal/ArticleDeleteModal";
+import articleStore from "../../redux/articleStore/articleStore";
+import React from "react";
+import ArticleButtonGroup from "./container/ArticleButtonGroup";
+
 interface dataType extends ArticleData {
     key: React.Key;
 }
@@ -100,7 +100,7 @@ const Article = () => {
                     dataSource={tableData}
                 ></DraggableTable>
                 <ArticleDrawer />
-                <ArticleDeleteModal />
+
 
             </div>
         </Provider>

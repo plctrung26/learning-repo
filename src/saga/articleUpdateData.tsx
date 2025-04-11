@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { ArticleData } from '../DataTypes/ArticleDataType';
+import { ArticleData } from '../types/article/ArticleDataType';
 import { updateArticleData, updateArticleDataFailure, updateArticleDataSuccess } from '../redux/articleStore/articleDrawerSlice';
 
 interface UpdateArticleAction {

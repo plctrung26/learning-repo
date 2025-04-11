@@ -2,6 +2,7 @@ import { AppstoreOutlined, DesktopOutlined, EllipsisOutlined, FileOutlined, Gift
 import './CustomSider.scss'
 import { Avatar, Button, Dropdown, Menu, MenuProps } from 'antd';
 import { useNavigate } from "react-router-dom";
+import React from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
