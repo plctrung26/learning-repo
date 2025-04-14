@@ -1,7 +1,7 @@
 import { Button, Form, Input, message } from "antd"
 import '../styles/LoginPage.scss'
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { logIn } from "../apis/login/loginApi";
 
 
 const LoginPage = () => {
@@ -11,13 +11,11 @@ const LoginPage = () => {
     const onFinish = async (values: { username: string; password: string }) => {
         console.log("Form Submitted with Data:", values);
         try {
-            const response = await axios.post("https://dev-api-nurture.vinova.sg/api/v1/admins/auth/login", values);
-            console.log("Login successful:", JSON.stringify(response.data.data.tokens.refreshToken));
-            message.success("Login successful!");
-            sessionStorage.setItem("access_token", response.data.data.tokens.accessToken);
+            const res = await logIn(values)
             navigate("/article", { replace: true })
+            return res
         } catch (error) {
-            console.error("Login failed:", error);
+            console.log("Login failed:", error);
             message.error("Invalid credentials. Please try again.");
         }
     };

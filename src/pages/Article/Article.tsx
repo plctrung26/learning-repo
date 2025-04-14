@@ -1,6 +1,5 @@
 import { TableColumnsType } from "antd";
 import { ArticleData } from "../../types/article/ArticleDataType";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import DraggableTable from "../../components/CustomTable/DraggableTable";
 import { formatDate } from "../../utils/formatDate";
@@ -9,12 +8,13 @@ import { Provider } from "react-redux";
 import articleStore from "../../redux/articleStore/articleStore";
 import React from "react";
 import ArticleButtonGroup from "./container/ArticleButtonGroup";
+import { getArticleData } from "../../apis/article/articleApi";
 
-interface dataType extends ArticleData {
+interface DataType extends ArticleData {
     key: React.Key;
 }
 
-const columns: TableColumnsType<dataType> = [
+const columns: TableColumnsType<DataType> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -54,33 +54,26 @@ const columns: TableColumnsType<dataType> = [
 const Article = () => {
     const [tableData, setTableData] = useState([])
 
-    const fetchData = async (): Promise<dataType[] | any> => {
-        try {
-            const response = await axios.get<dataType[]>("https://dev-api-nurture.vinova.sg/api/v1/admins/articles", {
-                params: {
-                    page: 1,
-                    limit: 25
-                },
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
-                }
-            });
-            console.log('Success')
-            return response.data
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            return error;
-        }
-    };
-
     useEffect(() => {
-        fetchData().then((data) => {
-            const testdata = data.data.map((item: dataType) => ({
-                ...item,
-                key: item.id
-            }))
-            setTableData(testdata)
-        });
+        const fetchData = async () => {
+            try {
+                const data = await getArticleData();
+                console.log(data)
+                if (data) {
+                    const finalData = data.data.map((item: DataType) => ({
+                        ...item,
+                        key: item.id
+                    }))
+                    setTableData(finalData)
+                }
+
+            } catch (error) {
+                console.log("Error fetching article data:", error);
+            }
+        };
+
+        fetchData();
+
     }, [])
 
     return (

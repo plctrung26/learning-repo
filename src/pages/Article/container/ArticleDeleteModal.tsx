@@ -6,7 +6,7 @@ import CustomModal from '../../../components/CutomModal/CustomModal';
 const ArticleDeleteModal = ({ formData }: { formData: any }) => {
     const dispatch = useDispatch();
     const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "modal");
-    const formattedData = { "ids": formData }
+    const formattedData = { "ids": [formData] }
     const handleOk = () => {
         console.log("Im ok", formattedData)
         if (formData) {

@@ -1,18 +1,74 @@
 import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined } from '@ant-design/icons';
-import { useDispatch } from "react-redux";
-import { openDrawer } from "../redux/drawerSlice";
 import ArticleDrawer from "./Article/container/ArticleDrawer";
 import StaticContentButtonGroup from "./StaticContent/container/StaticContentButtonGroup";
-import { openModal } from "../redux/modalSlice";
 import CustomModal from "../components/CutomModal/CustomModal";
 import CustomInput from "../components/FormComponents/CustomInput";
 import CustomTextEditor from "../components/FormComponents/CustomTextEditor";
+import { useEffect, useState } from "react";
+import { getArticleRowData } from "../apis/article/articleApi";
+import { ArticleData } from "../types/article/ArticleDataType";
 
 function App() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const id: string = "95b9bc18-1ed4-4b13-baea-7f515c076e3f"
+  const [apiData, setApiData] = useState<ArticleData>()
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await getArticleData();
+  //       if (data) {
+  //         const finalData = data.data.map((item: ArticleData) => ({
+  //           ...item,
+  //           key: item.id
+  //         }))
+  //         setApiData(finalData)
+  //       }
+
+  //     } catch (error) {
+  //       console.log("Error fetching article data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+
+  // }, [])
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await logIn({ username: 'superAdmin', password: '123qwe!@#QWE' });
+  //       console.log("Successfully fetch login", res)
+  //     } catch (error) {
+  //       console.log("Error fetching article data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+
+  // }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getArticleRowData({ id: id });
+        setApiData(data)
+        console.log(data)
+      } catch (error) {
+        console.log("Error fetching article data:", error);
+      }
+    };
+
+    fetchData();
+
+  }, [])
+
+  useEffect(() => {
+    console.log(apiData)
+  }, [apiData])
+
   return (
     <div style={{
       display: 'flex',
@@ -28,7 +84,7 @@ function App() {
         <Button onClick={() => { navigate('/account') }}>Custom Table</Button>
         <Button onClick={() => { navigate('/article') }}>Draggable Table</Button>
         <div>
-          <Button onClick={() => dispatch(openDrawer())}>
+          <Button onClick={() => { }}>
             Open Drawer
           </Button>
           <ArticleDrawer></ArticleDrawer>
@@ -38,7 +94,7 @@ function App() {
         </div>
         <ArticleDrawer></ArticleDrawer>
         <div>
-          <Button onClick={() => dispatch(openModal())}>Open Modal</Button>
+          <Button onClick={() => { }}>Open Modal</Button>
           <CustomModal openButtonIcon={<EyeOutlined className="button-icon" />}>
             <Form
               layout="vertical"

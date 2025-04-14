@@ -76,7 +76,7 @@ const StaticContent = () => {
             console.log('Success')
             return response.data
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.log("Error fetching data:", error);
             return error;
         }
     };
