@@ -8,6 +8,8 @@ interface UiState {
     isUpdating: boolean
     updateError: string | null
     isDelete: boolean
+    isCreate: boolean
+    action: "update" | "create" | "delete" | null
 }
 
 const initialState: UiState = {
@@ -17,7 +19,9 @@ const initialState: UiState = {
     isSubmitOpen: false,
     isUpdating: false,
     updateError: null,
-    isDelete: false
+    isDelete: false,
+    isCreate: false,
+    action: null
 };
 
 const articleDrawerSlice = createSlice({
@@ -27,13 +31,25 @@ const articleDrawerSlice = createSlice({
         setArticleId: (state, action) => {
             state.id = action.payload;
         },
-        openArticleDrawer: (state) => {
+        openUpdateArticleDrawer: (state) => {
             state.isArticleDrawerOpen = true;
             state.type = "drawer"
+            state.action = "update"
         },
-        closeArticleDrawer: (state) => {
+        closeUpdateArticleDrawer: (state) => {
             state.isArticleDrawerOpen = false;
             state.type = null
+            state.action = null
+        },
+        openCreateArticleDrawer: (state) => {
+            state.isArticleDrawerOpen = true;
+            state.type = "drawer"
+            state.action = "create"
+        },
+        closeCreateArticleDrawer: (state) => {
+            state.isArticleDrawerOpen = false;
+            state.type = null
+            state.action = null
         },
         openArticleModal: (state, action) => {
             state.isArticleDrawerOpen = true;
@@ -76,5 +92,5 @@ const articleDrawerSlice = createSlice({
     },
 });
 
-export const { deleteArticleDataFailure, deleteArticleDataSuccess, confirmDelete, updateArticleDataFailure, updateArticleDataSuccess, updateArticleData, cancelSubmit, submit, setArticleId, openArticleDrawer, closeArticleDrawer, openArticleModal, closeArticleModal } = articleDrawerSlice.actions;
+export const { closeCreateArticleDrawer, openCreateArticleDrawer, deleteArticleDataFailure, deleteArticleDataSuccess, confirmDelete, updateArticleDataFailure, updateArticleDataSuccess, updateArticleData, cancelSubmit, submit, setArticleId, openUpdateArticleDrawer, closeUpdateArticleDrawer, openArticleModal, closeArticleModal } = articleDrawerSlice.actions;
 export default articleDrawerSlice.reducer;

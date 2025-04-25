@@ -1,17 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/articleStore/articleStore';
-import { closeArticleModal, confirmDelete } from '../../../redux/articleStore/articleDrawerSlice';
+import { closeArticleModal } from '../../../redux/articleStore/articleDrawerSlice';
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import CustomModal from '../../../components/CutomModal/CustomModal';
+import { deleteArticleData } from '../../../apis/article/articleApi';
 const ArticleDeleteModal = ({ formData }: { formData: any }) => {
     const dispatch = useDispatch();
     const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "modal");
-    const formattedData = { "ids": [formData] }
-    const handleOk = () => {
-        console.log("Im ok", formattedData)
-        if (formData) {
-            dispatch(confirmDelete(formattedData));
-            dispatch(closeArticleModal())
+    const handleOk = async () => {
+        try {
+            if (formData) {
+                const formattedData = { "ids": [formData] }
+                console.log(formattedData)
+                const res = await deleteArticleData(formattedData)
+                console.log(res)
+            }
+
+        } catch (error) {
+            console.error("Failed: ", error)
         }
     }
 

@@ -4,83 +4,45 @@ import CustomInput from "../../../components/FormComponents/CustomInput";
 import CustomSelect from "../../../components/FormComponents/CustomSelect";
 import CustomUpload from "../../../components/FormComponents/CustomUpload";
 import CustomTextEditor from "../../../components/FormComponents/CustomTextEditor";
-import { ArticleData } from "../../../types/article/ArticleDataType";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/articleStore/articleStore";
-import { closeArticleDrawer, submit } from "../../../redux/articleStore/articleDrawerSlice";
-import ArticleDeleteModal from "./ArticleDeleteModal";
-import ArticleUpdateModal from "./ArticleUpdateModal";
-const ArticleDrawer = () => {
+import { closeUpdateArticleDrawer } from "../../../redux/articleStore/articleDrawerSlice";
+import useCreateData from "../../../hooks/articleHooks/useCreateData";
+import { ArticleDataType } from "../../../types/article/ArticleDataType";
+import useCategoryData from "../../../hooks/articleHooks/useCategoryData";
+
+const ArticleCreateDrawer = () => {
     const [form] = Form.useForm();
-    const [currentData, setCurrentData] = useState<ArticleData | undefined>()
-    const id = useSelector((state: RootState) => state.drawer.id)
-    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "drawer")
-    const contentValue = Form.useWatch("content", form);
-    const [pendingFormData, setPendingFormData] = useState<any>(null);
-    console.log(id)
+    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "drawer" && state.drawer.action === "create")
     const dispatch = useDispatch()
-
-    const fetchData = async (): Promise<ArticleData | any> => {
-        try {
-            const response = await axios.get<ArticleData>(`https://dev-api-nurture.vinova.sg/api/v1/admins/articles/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
-                }
-            });
-            return response.data
-        } catch (error) {
-            console.log("Error fetching data:", error);
-            return error;
-        }
-    };
-
-
-
-    useEffect(() => {
-        fetchData().then(res => {
-            setCurrentData(res.data)
-        })
-    }, [id]);
-
-    useEffect(() => {
-        if (!currentData) return
-        const test = {
-            id: currentData.id,
-            title: currentData.title,
-            author: currentData.author,
-            status: currentData?.status,
-            category: currentData.category?.name,
-            timeToRead: currentData.timeToRead,
-            picture: {
-                uri: currentData.picture?.uri || null,
-                types: "image/jpeg",
-                createdAt: currentData.picture?.createdAt,
-            },
-            content: currentData.content
-        }
-        form.setFieldsValue(test)
-        const formdata = form.getFieldsValue()
-        console.log(formdata)
-    }, [currentData])
+    const { mutate } = useCreateData();
+    const { data: customSelectData } = useCategoryData();
+    const handleCreate = (articleData: ArticleDataType) => {
+        mutate(articleData);
+    }
 
     return (
         <>
             <CustomDrawer
                 open={isOpen}
-                drawerTitle="Edit Article"
-                submitButtonText="Update"
+                drawerTitle="Create New Article"
+                submitButtonText="Create"
                 onClose={() => {
                     form.resetFields();
-                    setCurrentData(undefined);
-                    dispatch(closeArticleDrawer())
+                    dispatch(closeUpdateArticleDrawer())
                 }}
                 onSubmit={async () => {
                     try {
-                        const values = await form.validateFields(); // makes sure it's valid
-                        setPendingFormData(values);
-                        dispatch(submit());
+                        const values = await form.validateFields();
+                        const formattedValues = {
+                            ...values,
+                            picture: values.picture.uri,
+                            categoryId: values.category,
+                            type: "article"
+                        }
+                        console.log(formattedValues)
+                        const res = handleCreate(formattedValues)
+                        console.log(res)
                     } catch (err) {
                         console.log("Validation failed:", err);
                     }
@@ -105,21 +67,27 @@ const ArticleDrawer = () => {
                         name="status"
                         rules={[{ required: true, message: "This field is required." }]}
                     >
-                        <CustomSelect />
+                        <CustomSelect
+                            options={[
+                                { value: 'Published', label: 'Published' },
+                                { value: 'Unpublished', label: 'Unpublished' },
+                                { value: 'Draft', label: 'Draft' }
+                            ]} />
                     </Form.Item>
                     <Form.Item
                         label="Category"
                         name="category"
                         rules={[{ required: true, message: "This field is required." }]}
                     >
-                        <CustomSelect />
+                        <CustomSelect
+                            options={customSelectData} />
                     </Form.Item>
                     <Form.Item
                         label="Duration (Ex: 3 mins)"
                         name="timeToRead"
                         rules={[{ required: true, message: "This field is required." }]}
                     >
-                        <CustomSelect />
+                        <CustomInput placeholder="Duration" type="number" />
                     </Form.Item>
                     <Form.Item
                         label="Image"
@@ -133,15 +101,13 @@ const ArticleDrawer = () => {
                         name="content"
                         rules={[{ required: true, message: "This field is required." }]}
                     >
-                        <CustomTextEditor text={contentValue} />
+                        <CustomTextEditor />
                     </Form.Item>
                 </Form>
             </CustomDrawer>
-            <ArticleUpdateModal formData={pendingFormData} />
-            <ArticleDeleteModal formData={id} />
         </>
 
     );
 };
 
-export default ArticleDrawer;
+export default ArticleCreateDrawer;

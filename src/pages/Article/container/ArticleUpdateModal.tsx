@@ -1,30 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/articleStore/articleStore';
-import { cancelSubmit, updateArticleData } from '../../../redux/articleStore/articleDrawerSlice';
 import CustomModal from '../../../components/CutomModal/CustomModal';
-import { useEffect } from 'react';
+import { cancelSubmit } from '../../../redux/articleStore/articleDrawerSlice';
+import useTableRowData from '../../../hooks/articleHooks/useTableRowData';
 
 
 const ArticleUpdateModal = ({ formData }: { formData: any }) => {
-
     const dispatch = useDispatch();
     const isOpen = useSelector((state: RootState) => state.drawer.isSubmitOpen);
     const id = useSelector((state: RootState) => state.drawer.id)
+    const { updateArticle } = useTableRowData(id);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (formData && id) {
-            const transformedData = {
-                ...formData,
-                picture: formData.picture?.uri || "",
-            };
-            dispatch(updateArticleData({ id, data: transformedData }));
+            try {
+                const transformedData = {
+                    ...formData,
+                    picture: formData.picture?.uri || "",
+                };
+                updateArticle({ id: id, data: transformedData });
+            } catch (error) {
+                console.error("Failed to update data")
+            }
         }
         dispatch(cancelSubmit());
     };
 
-    useEffect(() => {
-        console.log(formData)
-    }, [formData])
     return (
         <>
             <CustomModal

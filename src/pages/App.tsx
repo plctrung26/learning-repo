@@ -1,32 +1,33 @@
 import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined } from '@ant-design/icons';
-import ArticleDrawer from "./Article/container/ArticleDrawer";
+import ArticleUpdateDrawer from "./Article/container/ArticleUpdateDrawer";
 import StaticContentButtonGroup from "./StaticContent/container/StaticContentButtonGroup";
 import CustomModal from "../components/CutomModal/CustomModal";
 import CustomInput from "../components/FormComponents/CustomInput";
 import CustomTextEditor from "../components/FormComponents/CustomTextEditor";
 import { useEffect, useState } from "react";
 import { getArticleRowData } from "../apis/article/articleApi";
-import { ArticleData } from "../types/article/ArticleDataType";
+import { ArticleDataType } from "../types/article/ArticleDataType";
+import { createCategory, getAllCategory } from "../apis/category/categoryApi";
 
 function App() {
   const navigate = useNavigate();
   const id: string = "95b9bc18-1ed4-4b13-baea-7f515c076e3f"
-  const [apiData, setApiData] = useState<ArticleData>()
+  const [apiData, setApiData] = useState<ArticleDataType>()
 
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const data = await getArticleData();
-  //       if (data) {
-  //         const finalData = data.data.map((item: ArticleData) => ({
-  //           ...item,
-  //           key: item.id
-  //         }))
-  //         setApiData(finalData)
-  //       }
-
+  //       const data = await createCategory({
+  //         data: {
+  //           "title": "BobTestingCate1111",
+  //           "name": "BobTestingCate1111",
+  //           "image": "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F6ce1303f-83be-49d2-a572-bb926130ca9c_uploads_images_131617ff-bc98-4763-959b-5e718c8ec2dd_Group%2B1.png",
+  //           "status": "active"
+  //         }
+  //       });
+  //       console.log(data)
   //     } catch (error) {
   //       console.log("Error fetching article data:", error);
   //     }
@@ -39,8 +40,8 @@ function App() {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const res = await logIn({ username: 'superAdmin', password: '123qwe!@#QWE' });
-  //       console.log("Successfully fetch login", res)
+  //       const data = await getAllCategory();
+  //       console.log(data)
   //     } catch (error) {
   //       console.log("Error fetching article data:", error);
   //     }
@@ -50,24 +51,7 @@ function App() {
 
   // }, [])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getArticleRowData({ id: id });
-        setApiData(data)
-        console.log(data)
-      } catch (error) {
-        console.log("Error fetching article data:", error);
-      }
-    };
 
-    fetchData();
-
-  }, [])
-
-  useEffect(() => {
-    console.log(apiData)
-  }, [apiData])
 
   return (
     <div style={{
@@ -87,12 +71,12 @@ function App() {
           <Button onClick={() => { }}>
             Open Drawer
           </Button>
-          <ArticleDrawer></ArticleDrawer>
+          <ArticleUpdateDrawer></ArticleUpdateDrawer>
         </div>
         <div>
           <StaticContentButtonGroup />
         </div>
-        <ArticleDrawer></ArticleDrawer>
+        <ArticleUpdateDrawer></ArticleUpdateDrawer>
         <div>
           <Button onClick={() => { }}>Open Modal</Button>
           <CustomModal openButtonIcon={<EyeOutlined className="button-icon" />}>
@@ -124,9 +108,6 @@ function App() {
         <CustomInput />
 
 
-      </div>
-      <div style={{ width: "500px", height: "600px" }}>
-        <CustomTextEditor text={""} />
       </div>
     </div>
 

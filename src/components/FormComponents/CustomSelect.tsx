@@ -6,12 +6,6 @@ const CustomSelect: React.FC<SelectProps> = ({ ...SelectProps }) => {
         <Select
             defaultValue=""
             onChange={() => { console.log("im select") }}
-            options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-                { value: 'disabled', label: 'Disabled', disabled: true },
-            ]}
             {...SelectProps}
 
         />

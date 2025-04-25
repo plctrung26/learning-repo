@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-export type ArticleData = {
+export type ArticleDataType = {
     // key: React.Key;
     id: string
     slug?: string
@@ -33,4 +33,15 @@ export type ArticleData = {
         }
         createdAt?: string
     }
+}
+
+export type ArticleCreateDataType = {
+    title?: string,
+    content?: ReactNode,
+    picture?: string,
+    status?: string,
+    type?: string,
+    timeToRead?: number,
+    categoryId?: string,
+    author?: string
 }

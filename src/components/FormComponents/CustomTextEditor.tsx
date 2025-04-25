@@ -2,23 +2,25 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import 'react-quill-new/dist/quill.snow.css';
 
+interface Props {
+    value?: string;
+    onChange?: (value: string) => void;
+}
 
-type Props = {
-    text: string
-};
+const CustomTextEditor: React.FC<Props> = ({ value = "", onChange }) => {
+    const [editorValue, setEditorValue] = useState(value);
 
-
-const CustomTextEditor: React.FC<Props> = ({ text }) => {
-    const [value, setValue] = useState("");
     useEffect(() => {
-        setValue(text)
-    }, [text])
+        setEditorValue(value);
+    }, [value]);
+
+    const handleChange = (val: string) => {
+        setEditorValue(val);
+        if (onChange) onChange(val);
+    };
 
     return (
-        <div>
-            <ReactQuill value={value} onChange={setValue} />
-        </div>
-
+        <ReactQuill value={editorValue} onChange={handleChange} />
     );
 };
 

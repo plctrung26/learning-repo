@@ -1,11 +1,14 @@
 import { EditOutlined, RestOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
-import { openArticleDrawer, openArticleModal, setArticleId } from '../../../redux/articleStore/articleDrawerSlice';
+import { openUpdateArticleDrawer, openArticleModal, setArticleId } from '../../../redux/articleStore/articleDrawerSlice';
 import '../../../components/ButtonGroup/ButtonGroup.scss'
+
 
 const ArticleButtonGroup = ({ id }: { id: string }) => {
     const dispatch = useDispatch()
+    
+
     return (
         <div className="button-group-container">
             <Button
@@ -14,7 +17,7 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 shape='circle'
                 onClick={() => {
                     dispatch(setArticleId(id))
-                    dispatch(openArticleDrawer())
+                    dispatch(openUpdateArticleDrawer())
                 }}
             />
 

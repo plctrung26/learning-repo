@@ -1,12 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { ArticleData } from '../types/article/ArticleDataType';
+import { ArticleDataType } from '../types/article/ArticleDataType';
 import { updateArticleData, updateArticleDataFailure, updateArticleDataSuccess } from '../redux/articleStore/articleDrawerSlice';
 
 interface UpdateArticleAction {
     payload: {
         id: string
-        data: ArticleData
+        data: ArticleDataType
     }
     type: string;
 }

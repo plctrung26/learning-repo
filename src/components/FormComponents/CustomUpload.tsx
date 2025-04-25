@@ -24,11 +24,36 @@ interface image {
     };
 }
 
+interface CustomUploadProps extends Omit<UploadProps, 'onChange' | 'fileList' | 'value'> {
+    value?: image['picture'] | null;
+    onChange?: (value: image['picture'] | null) => void;
+}
 
-const CustomUpload: React.FC<UploadProps & { value?: image['picture'] | null }> = ({ value, ...UploadProps }) => {
+const CustomUpload: React.FC<CustomUploadProps> = ({ value, onChange, ...UploadProps }) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+
+        if (newFileList.length > 0) {
+            const file = newFileList[0];
+            let uri = file.url;
+            if (!uri && file.originFileObj) {
+                uri = await getBase64(file.originFileObj as FileType);
+            }
+            const picture: image['picture'] = {
+                uri: "https://s3.ap-southeast-1.amazonaws.com/nurturewave-be-dev/uploads%2Fimages%2F9d20a6b8-3eb8-4cb6-8de1-c570199221d4_image_picker_2E5934AD-1857-400D-A81C-E6A462961598-8551-0000107C2821B06C.png", //|| '',
+                type: file.type || '',
+                createdAt: new Date().toISOString(),
+            };
+            onChange?.(picture);
+        } else {
+            onChange?.(null);
+        }
+    };
+
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
@@ -53,10 +78,6 @@ const CustomUpload: React.FC<UploadProps & { value?: image['picture'] | null }> 
             setFileList([])
         }
     }, [value]);
-
-    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-        setFileList(newFileList)
-    };
 
     const handleRemove: UploadProps['onRemove'] = () => {
         setFileList([])
