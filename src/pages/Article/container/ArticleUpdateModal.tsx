@@ -1,14 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../redux/articleStore/articleStore';
 import CustomModal from '../../../components/CutomModal/CustomModal';
-import { cancelSubmit } from '../../../redux/articleStore/articleDrawerSlice';
 import useTableRowData from '../../../hooks/articleHooks/useTableRowData';
+import useArticleStore from '../../../store/article/useArticleStore';
 
 
 const ArticleUpdateModal = ({ formData }: { formData: any }) => {
-    const dispatch = useDispatch();
-    const isOpen = useSelector((state: RootState) => state.drawer.isSubmitOpen);
-    const id = useSelector((state: RootState) => state.drawer.id)
+
+    const { id, closeArticleModal, closeArticleDrawer } = useArticleStore()
+    const isModalOpen = useArticleStore((state) => state.isOpen && state.action === 'update' && state.isSubmitOpen)
     const { updateArticle } = useTableRowData(id);
 
     const handleConfirm = async () => {
@@ -23,7 +21,8 @@ const ArticleUpdateModal = ({ formData }: { formData: any }) => {
                 console.error("Failed to update data")
             }
         }
-        dispatch(cancelSubmit());
+        closeArticleModal()
+        closeArticleDrawer()
     };
 
     return (
@@ -31,9 +30,9 @@ const ArticleUpdateModal = ({ formData }: { formData: any }) => {
             <CustomModal
                 title={"This is confirm Submit modal"}
                 centered
-                open={isOpen}
+                open={isModalOpen}
                 onOk={handleConfirm}
-                onCancel={() => dispatch(cancelSubmit())}
+                onCancel={closeArticleModal}
             >
 
             </CustomModal>

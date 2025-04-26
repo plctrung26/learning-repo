@@ -4,45 +4,38 @@ import CustomInput from "../../../components/FormComponents/CustomInput";
 import CustomSelect from "../../../components/FormComponents/CustomSelect";
 import CustomUpload from "../../../components/FormComponents/CustomUpload";
 import CustomTextEditor from "../../../components/FormComponents/CustomTextEditor";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/articleStore/articleStore";
-import { closeUpdateArticleDrawer } from "../../../redux/articleStore/articleDrawerSlice";
-import useCreateData from "../../../hooks/articleHooks/useCreateData";
 import { ArticleDataType } from "../../../types/article/ArticleDataType";
 import useCategoryData from "../../../hooks/articleHooks/useCategoryData";
+import ArticleCreateModal from "./ArticleCreateModal";
+import { useState } from "react";
+import useArticleStore from "../../../store/article/useArticleStore";
 
 const ArticleCreateDrawer = () => {
     const [form] = Form.useForm();
-    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "drawer" && state.drawer.action === "create")
-    const dispatch = useDispatch()
-    const { mutate } = useCreateData();
+    const isDrawerOpen = useArticleStore((state) => state.isOpen && state.action === 'create' && (state.type === 'drawer' || state.isSubmitOpen))
+    const { closeArticleDrawer, } = useArticleStore()
     const { data: customSelectData } = useCategoryData();
-    const handleCreate = (articleData: ArticleDataType) => {
-        mutate(articleData);
-    }
+    const [modalData, setModalData] = useState<ArticleDataType>()
+    const { setAction, openArticleModal2 } = useArticleStore()
+
 
     return (
         <>
             <CustomDrawer
-                open={isOpen}
+                open={isDrawerOpen}
                 drawerTitle="Create New Article"
                 submitButtonText="Create"
                 onClose={() => {
                     form.resetFields();
-                    dispatch(closeUpdateArticleDrawer())
+                    closeArticleDrawer();
                 }}
                 onSubmit={async () => {
                     try {
                         const values = await form.validateFields();
-                        const formattedValues = {
-                            ...values,
-                            picture: values.picture.uri,
-                            categoryId: values.category,
-                            type: "article"
-                        }
-                        console.log(formattedValues)
-                        const res = handleCreate(formattedValues)
-                        console.log(res)
+                        setModalData(values)
+                        setAction('create')
+                        openArticleModal2()
+
                     } catch (err) {
                         console.log("Validation failed:", err);
                     }
@@ -105,6 +98,7 @@ const ArticleCreateDrawer = () => {
                     </Form.Item>
                 </Form>
             </CustomDrawer>
+            <ArticleCreateModal formData={modalData}></ArticleCreateModal>
         </>
 
     );

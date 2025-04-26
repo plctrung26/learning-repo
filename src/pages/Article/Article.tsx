@@ -4,14 +4,12 @@ import { useEffect } from "react";
 import DraggableTable from "../../components/CustomTable/DraggableTable";
 import { formatDate } from "../../utils/formatDate";
 import ArticleUpdateDrawer from "./container/ArticleUpdateDrawer";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/articleStore/articleStore";
 import React from "react";
 import ArticleButtonGroup from "./container/ArticleButtonGroup";
-// import { getArticleData } from "../../apis/article/articleApi";
 import useTableData from "../../hooks/articleHooks/useTableData";
 import ArticleDeleteModal from "./container/ArticleDeleteModal";
 import ArticleCreateDrawer from "./container/ArticleCreateDrawer";
+import useArticleStore from "../../store/article/useArticleStore";
 
 interface DataType extends ArticleDataType {
     key: React.Key;
@@ -56,36 +54,14 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const Article = () => {
-    // const [tableData, setTableData] = useState([])
     const { data } = useTableData();
-    const id = useSelector((state: RootState) => state.drawer.id)
+    const id = useArticleStore((state) => state.id)
 
     useEffect(() => {
         if (data) {
             data.sort((a, b) => (a.index ?? Infinity) - (b.index ?? Infinity));
         }
     }, [data])
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const data = await getArticleData();
-    //             console.log(data)
-    //             if (data) {
-    //                 const finalData = data.data.map((item: DataType) => ({
-    //                     ...item,
-    //                     key: item.id
-    //                 }))
-    //                 setTableData(finalData)
-    //             }
-    //         } catch (error) {
-    //             console.log("Error fetching article data:", error);
-    //         }
-    //     };
-
-    //     fetchData();
-
-    // }, [])
 
     return (
         <div style={{

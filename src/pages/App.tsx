@@ -2,19 +2,11 @@ import { Button, Form, Input } from "antd"
 import { useNavigate } from "react-router-dom";
 import { EyeOutlined } from '@ant-design/icons';
 import ArticleUpdateDrawer from "./Article/container/ArticleUpdateDrawer";
-import StaticContentButtonGroup from "./StaticContent/container/StaticContentButtonGroup";
 import CustomModal from "../components/CutomModal/CustomModal";
 import CustomInput from "../components/FormComponents/CustomInput";
-import CustomTextEditor from "../components/FormComponents/CustomTextEditor";
-import { useEffect, useState } from "react";
-import { getArticleRowData } from "../apis/article/articleApi";
-import { ArticleDataType } from "../types/article/ArticleDataType";
-import { createCategory, getAllCategory } from "../apis/category/categoryApi";
 
 function App() {
   const navigate = useNavigate();
-  const id: string = "95b9bc18-1ed4-4b13-baea-7f515c076e3f"
-  const [apiData, setApiData] = useState<ArticleDataType>()
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -72,9 +64,6 @@ function App() {
             Open Drawer
           </Button>
           <ArticleUpdateDrawer></ArticleUpdateDrawer>
-        </div>
-        <div>
-          <StaticContentButtonGroup />
         </div>
         <ArticleUpdateDrawer></ArticleUpdateDrawer>
         <div>

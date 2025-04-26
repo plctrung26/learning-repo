@@ -1,13 +1,11 @@
 import { EditOutlined, RestOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
-import { openUpdateArticleDrawer, openArticleModal, setArticleId } from '../../../redux/articleStore/articleDrawerSlice';
 import '../../../components/ButtonGroup/ButtonGroup.scss'
+import useArticleStore from '../../../store/article/useArticleStore';
 
 
 const ArticleButtonGroup = ({ id }: { id: string }) => {
-    const dispatch = useDispatch()
-    
+    const { setId, setAction, openArticleDrawer, openArticleModal2, setType } = useArticleStore()
 
     return (
         <div className="button-group-container">
@@ -16,8 +14,11 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 className='button-group-item'
                 shape='circle'
                 onClick={() => {
-                    dispatch(setArticleId(id))
-                    dispatch(openUpdateArticleDrawer())
+                    // dispatch(setArticleId(id))
+                    // dispatch(openUpdateArticleDrawer())
+                    setId(id)
+                    setAction("update")
+                    openArticleDrawer()
                 }}
             />
 
@@ -26,8 +27,12 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 className='button-group-item'
                 shape='circle'
                 onClick={() => {
-                    dispatch(setArticleId(id))
-                    dispatch(openArticleModal(id))
+                    // dispatch(setArticleId(id))
+                    // dispatch(openArticleModal(id))
+                    setId(id)
+                    setType('modal')
+                    setAction("delete")
+                    openArticleModal2()
                 }}
             />
         </div>

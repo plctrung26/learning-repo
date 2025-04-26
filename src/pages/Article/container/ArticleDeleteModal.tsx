@@ -1,19 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../redux/articleStore/articleStore';
-import { closeArticleModal } from '../../../redux/articleStore/articleDrawerSlice';
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import CustomModal from '../../../components/CutomModal/CustomModal';
-import { deleteArticleData } from '../../../apis/article/articleApi';
+import useArticleStore from '../../../store/article/useArticleStore';
+import useDeleteData from '../../../hooks/articleHooks/useDeleteData';
 const ArticleDeleteModal = ({ formData }: { formData: any }) => {
-    const dispatch = useDispatch();
-    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "modal");
-    const handleOk = async () => {
+    const { closeArticleModal } = useArticleStore()
+    const { mutate } = useDeleteData()
+    const isModalOpen = useArticleStore((state) => state.isOpen && state.type === 'modal' && state.isSubmitOpen && state.action === 'delete')
+    const handleOk = () => {
         try {
             if (formData) {
-                const formattedData = { "ids": [formData] }
-                console.log(formattedData)
-                const res = await deleteArticleData(formattedData)
-                console.log(res)
+                mutate(formData)
+                closeArticleModal()
+
             }
 
         } catch (error) {
@@ -35,9 +33,9 @@ const ArticleDeleteModal = ({ formData }: { formData: any }) => {
                 </div>
             }
             centered
-            open={isOpen}
+            open={isModalOpen}
             onOk={handleOk}
-            onCancel={() => dispatch(closeArticleModal())}
+            onCancel={closeArticleModal}
         >
             <div>Are you sure you want to delete this item?</div>
         </CustomModal>

@@ -5,19 +5,18 @@ import CustomSelect from "../../../components/FormComponents/CustomSelect";
 import CustomUpload from "../../../components/FormComponents/CustomUpload";
 import CustomTextEditor from "../../../components/FormComponents/CustomTextEditor";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/articleStore/articleStore";
-import { closeUpdateArticleDrawer, submit } from "../../../redux/articleStore/articleDrawerSlice";
 import ArticleUpdateModal from "./ArticleUpdateModal";
 import useTableRowData from "../../../hooks/articleHooks/useTableRowData";
 import useCategoryData from "../../../hooks/articleHooks/useCategoryData";
+import useArticleStore from "../../../store/article/useArticleStore";
 const ArticleUpdateDrawer = () => {
     const [form] = Form.useForm();
-    const id = useSelector((state: RootState) => state.drawer.id)
-    const isOpen = useSelector((state: RootState) => state.drawer.isArticleDrawerOpen && state.drawer.type === "drawer" && state.drawer.action === "update")
+    const { id, closeArticleDrawer, openArticleModal2 } = useArticleStore()
+    const isDrawerOpen = useArticleStore(
+        state => state.isOpen && state.action === 'update' && (state.type === 'drawer' || state.isSubmitOpen)
+    );
     const contentValue = Form.useWatch("content", form);
     const [pendingFormData, setPendingFormData] = useState<any>(null);
-    const dispatch = useDispatch()
     const { data: tableRowData } = useTableRowData(id)
     const { data: customSelectData } = useCategoryData()
 
@@ -38,25 +37,24 @@ const ArticleUpdateDrawer = () => {
             content: tableRowData.content
         }
         form.setFieldsValue(test)
-        const formdata = form.getFieldsValue()
-        console.log(formdata)
     }, [tableRowData])
 
     return (
         <>
             <CustomDrawer
-                open={isOpen}
+                open={isDrawerOpen}
                 drawerTitle="Edit Article"
                 submitButtonText="Update"
                 onClose={() => {
+                    console.log("I")
                     form.resetFields();
-                    dispatch(closeUpdateArticleDrawer())
+                    closeArticleDrawer();
                 }}
                 onSubmit={async () => {
                     try {
                         const values = await form.validateFields();
                         setPendingFormData(values);
-                        dispatch(submit());
+                        openArticleModal2();
                     } catch (err) {
                         console.log("Validation failed:", err);
                     }

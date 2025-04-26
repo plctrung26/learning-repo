@@ -1,7 +1,5 @@
 import { Button, Drawer, DrawerProps } from 'antd';
 import './ShowDrawerButton.scss'
-import { useDispatch } from 'react-redux';
-import { closeUpdateArticleDrawer } from '../../redux/articleStore/articleDrawerSlice';
 import React from 'react';
 
 interface CustomDrawerProps extends DrawerProps {
@@ -16,12 +14,11 @@ interface CustomDrawerProps extends DrawerProps {
 }
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
-    const dispatch = useDispatch()
 
     return (
         <>
             <Drawer {...drawerProps}
-                title={drawerTitle} onClose={() => { dispatch(closeUpdateArticleDrawer()) }}
+                title={drawerTitle}
                 footer={<Button
                     onClick={onSubmit}
                     style={{
