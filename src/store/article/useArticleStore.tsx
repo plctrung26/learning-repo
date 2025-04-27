@@ -13,6 +13,9 @@ interface ArticleStoreState {
     isDelete: boolean;
     isCreate: boolean;
     action: ArticleAction;
+    queryString: string;
+    isChangeIndex: boolean;
+    isCancelChangeIndex: boolean;
 
     setIsOpen: (isOpen: boolean) => void;
     setId: (id: string) => void;
@@ -23,10 +26,14 @@ interface ArticleStoreState {
     setIsDelete: (isDelete: boolean) => void;
     setIsCreate: (isCreate: boolean) => void;
     setAction: (action: ArticleAction) => void;
+    setQueryString: (queryString: string) => void;
+    setIsChangeIndex: (isChangeIndex: boolean) => void;
+    setIsCancelChangeIndex: (isCancelChangeIndex: boolean) => void;
     openArticleDrawer: () => void;
     openArticleModal2: () => void;
     closeArticleDrawer: () => void;
     closeArticleModal: () => void;
+    clearQueryString: () => void;
 }
 
 const useArticleStore = create<ArticleStoreState>((set) => ({
@@ -39,6 +46,9 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
     isDelete: false,
     isCreate: false,
     action: null,
+    queryString: "",
+    isChangeIndex: false,
+    isCancelChangeIndex: false,
 
     setIsOpen: (isOpen) => set({ isOpen }),
     setId: (id) => set({ id }),
@@ -49,6 +59,9 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
     setIsDelete: (isDelete) => set({ isDelete }),
     setIsCreate: (isCreate) => set({ isCreate }),
     setAction: (action) => set({ action }),
+    setQueryString: (queryString) => set({ queryString }),
+    setIsChangeIndex: (isChangeIndex) => set({ isChangeIndex }),
+    setIsCancelChangeIndex: (isCancelChangeIndex) => set({ isCancelChangeIndex }),
 
     openArticleDrawer: () => set({
         isOpen: true,
@@ -71,6 +84,9 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
         isSubmitOpen: false
     }),
 
+    clearQueryString: () => set({
+        queryString: ""
+    })
 
 }));
 

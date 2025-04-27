@@ -1,6 +1,6 @@
 import { TableColumnsType } from "antd";
 import { ArticleDataType } from "../../types/article/ArticleDataType";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DraggableTable from "../../components/CustomTable/DraggableTable";
 import { formatDate } from "../../utils/formatDate";
 import ArticleUpdateDrawer from "./container/ArticleUpdateDrawer";
@@ -10,6 +10,8 @@ import useTableData from "../../hooks/articleHooks/useTableData";
 import ArticleDeleteModal from "./container/ArticleDeleteModal";
 import ArticleCreateDrawer from "./container/ArticleCreateDrawer";
 import useArticleStore from "../../store/article/useArticleStore";
+import { filterData } from "../../utils/filterData";
+import ArticleDraggableTable from "./container/ArticleDraggableTable";
 
 interface DataType extends ArticleDataType {
     key: React.Key;
@@ -55,13 +57,17 @@ const columns: TableColumnsType<DataType> = [
 
 const Article = () => {
     const { data } = useTableData();
+    const [filteredData, setFilteredData] = useState<any>(data)
+    const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex } = useArticleStore();
     const id = useArticleStore((state) => state.id)
 
     useEffect(() => {
         if (data) {
-            data.sort((a, b) => (a.index ?? Infinity) - (b.index ?? Infinity));
+            setFilteredData(filterData(data, queryString));
         }
-    }, [data])
+    }, [queryString, data]);
+
+    useEffect(() => setFilteredData(data), [data])
 
     return (
         <div style={{
@@ -74,10 +80,15 @@ const Article = () => {
             boxSizing: 'border-box'
         }}  >
 
-            <DraggableTable
+            {/* <DraggableTable
+                onChangeIndex={setIsChangeIndex}
+                onCancel={setIsCancelChangeIndex}
+                isChangeIndex={isChangeIndex}
+                isCancelChangeIndex={isCancelChangeIndex}
                 columns={columns}
-                dataSource={data}
-            ></DraggableTable>
+                dataSource={filteredData}
+            ></DraggableTable> */}
+            <ArticleDraggableTable data={filteredData} columns={columns}></ArticleDraggableTable>
             <ArticleUpdateDrawer />
             <ArticleDeleteModal formData={id} />
             <ArticleCreateDrawer />

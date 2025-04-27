@@ -14,8 +14,6 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 className='button-group-item'
                 shape='circle'
                 onClick={() => {
-                    // dispatch(setArticleId(id))
-                    // dispatch(openUpdateArticleDrawer())
                     setId(id)
                     setAction("update")
                     openArticleDrawer()
@@ -27,8 +25,6 @@ const ArticleButtonGroup = ({ id }: { id: string }) => {
                 className='button-group-item'
                 shape='circle'
                 onClick={() => {
-                    // dispatch(setArticleId(id))
-                    // dispatch(openArticleModal(id))
                     setId(id)
                     setType('modal')
                     setAction("delete")

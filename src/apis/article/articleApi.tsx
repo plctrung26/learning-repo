@@ -6,7 +6,9 @@ const getArticleData = async (): Promise<ArticleDataType[] | any> => {
         const response = await instance.get("admins/articles", {
             params: {
                 page: 1,
-                limit: 25
+                limit: 25,
+                sort: 'index',
+                f_type: 'article'
             }
         })
         return response
@@ -60,4 +62,14 @@ const createArticleData = async ({ newData }: { newData: ArticleDataType }) => {
     }
 }
 
-export { createArticleData, getArticleRowData, getArticleData, updateArticleData, deleteArticleData }
+const changeIndex = async (data: { "articles": { id: string, index: number }[] }) => {
+    try {
+        const res = await instance.put("admins/articles/index", data)
+        console.log(res)
+        return res
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export { createArticleData, getArticleRowData, getArticleData, updateArticleData, deleteArticleData, changeIndex }
