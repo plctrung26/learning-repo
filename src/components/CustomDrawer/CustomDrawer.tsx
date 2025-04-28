@@ -1,6 +1,5 @@
 import { Button, Drawer, DrawerProps } from 'antd';
 import './ShowDrawerButton.scss'
-import React from 'react';
 
 interface CustomDrawerProps extends DrawerProps {
     children?: React.ReactNode;

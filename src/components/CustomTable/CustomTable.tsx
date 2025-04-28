@@ -1,7 +1,6 @@
 import { Table } from 'antd';
 import type { TableProps } from 'antd';
 import './CustomTable.scss'
-import React from 'react';
 
 
 const CustomTable = <Record extends object>(props: TableProps<Record>) => {
