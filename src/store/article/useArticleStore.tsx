@@ -16,6 +16,7 @@ interface ArticleStoreState {
     queryString: string;
     isChangeIndex: boolean;
     isCancelChangeIndex: boolean;
+    isOutdated: boolean;
 
     setIsOpen: (isOpen: boolean) => void;
     setId: (id: string) => void;
@@ -29,6 +30,7 @@ interface ArticleStoreState {
     setQueryString: (queryString: string) => void;
     setIsChangeIndex: (isChangeIndex: boolean) => void;
     setIsCancelChangeIndex: (isCancelChangeIndex: boolean) => void;
+    setIsOutdated: (isOutdated: boolean) => void;
     openArticleDrawer: () => void;
     openArticleModal2: () => void;
     closeArticleDrawer: () => void;
@@ -49,6 +51,7 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
     queryString: "",
     isChangeIndex: false,
     isCancelChangeIndex: false,
+    isOutdated: false,
 
     setIsOpen: (isOpen) => set({ isOpen }),
     setId: (id) => set({ id }),
@@ -62,6 +65,7 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
     setQueryString: (queryString) => set({ queryString }),
     setIsChangeIndex: (isChangeIndex) => set({ isChangeIndex }),
     setIsCancelChangeIndex: (isCancelChangeIndex) => set({ isCancelChangeIndex }),
+    setIsOutdated: (isOutdated) => set({ isOutdated }),
 
     openArticleDrawer: () => set({
         isOpen: true,

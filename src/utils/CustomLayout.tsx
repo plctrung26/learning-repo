@@ -5,9 +5,12 @@ import CustomHeader from "../components/CustomHeader/CustomHeader";
 
 const { Content, Sider } = Layout;
 
+interface CustomLayoutProps {
+    header?: React.ReactNode;
+    sider?: React.ReactNode;
+}
 
-
-const CustomLayout = () => {
+const CustomLayout = ({ header = <CustomHeader />, sider = <CustomSider /> }: CustomLayoutProps) => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -15,12 +18,10 @@ const CustomLayout = () => {
     return (
         <Layout>
             <Sider width={250} style={{ background: colorBgContainer }}>
-                <CustomSider />
+                {sider}
             </Sider>
             <Layout>
-                <CustomHeader>
-
-                </CustomHeader>
+                {header}
                 <Layout style={{ padding: '0px' }}>
                     <Content
                         style={{

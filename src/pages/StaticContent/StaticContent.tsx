@@ -1,7 +1,7 @@
 import { TableColumnsType, TableProps } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import React from "react";
+
 import CustomTable from "../../components/CustomTable/CustomTable";
 
 interface StaticContentData {

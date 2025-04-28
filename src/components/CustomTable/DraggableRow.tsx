@@ -1,10 +1,10 @@
-import React from "react";
+import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
 const type = "DraggableRow";
 
 const DraggableRow = ({ index, moveRow, className, style, ...restProps }: any) => {
-    const ref = React.useRef(null);
+    const ref = useRef(null);
 
     const [, drop] = useDrop({
         accept: type,

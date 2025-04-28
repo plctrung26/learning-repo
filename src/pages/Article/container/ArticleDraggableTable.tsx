@@ -3,55 +3,50 @@ import DraggableTable from "../../../components/CustomTable/DraggableTable"
 import useArticleStore from "../../../store/article/useArticleStore";
 import { filterData } from "../../../utils/filterData";
 import useChangeIndex from "../../../hooks/articleHooks/useChangeIndex";
+import useTableData from "../../../hooks/articleHooks/useTableData";
 
-type Props = {
+type ArticleTableProps = {
     data: any;
     columns: any;
 };
 
-const ArticleDraggableTable = ({ data, columns }: Props) => {
+const ArticleDraggableTable = ({ data, columns }: ArticleTableProps) => {
     const [filteredData, setFilteredData] = useState<any>(data)
-    const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex } = useArticleStore();
-    const [originalData, setOriginalData] = useState<any>([]);
+    const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex, setIsOutdated } = useArticleStore();
     const { mutate } = useChangeIndex()
+    const { refetchTable } = useTableData()
 
     useEffect(() => {
         if (data) {
-            setOriginalData([...data])
+            refetchTable()
+            setFilteredData(filterData(data, queryString));
+        }
+    }, [queryString, data]);
+
+    useEffect(() => {
+        if (queryString !== "") {
+            setFilteredData(filterData(data, queryString));
         }
     }, [data])
 
-
-    useEffect(() => {
-        if (isCancelChangeIndex === true) {
-            setIsCancelChangeIndex(false)
-        }
-    }, [isCancelChangeIndex])
-
     useEffect(() => {
         if (isChangeIndex === true) {
-            mutate(data)
-            setIsChangeIndex(false)
+            setIsOutdated(true)
         }
-    }, [isChangeIndex, data, mutate]);
-
-    useEffect(() => {
-        if (data) {
-            setFilteredData(filterData(data, queryString));
-
-        }
-    }, [queryString, data]);
+    }, [isChangeIndex])
 
     useEffect(() => setFilteredData(data), [data])
     return (
         <DraggableTable
-            onChangeIndex={() => { }}
-            onCancel={() => { }}
-            isChangeIndex={false}
-            isCancelChangeIndex={false}
+            onChangeIndex={setIsChangeIndex}
+            onCancel={setIsCancelChangeIndex}
+            isChangeIndex={isChangeIndex}
+            isCancelChangeIndex={isCancelChangeIndex}
+            updateFunction={mutate}
             columns={columns}
             dataSource={filteredData}
         />
+
     )
 }
 

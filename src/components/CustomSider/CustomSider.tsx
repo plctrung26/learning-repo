@@ -2,7 +2,7 @@ import { AppstoreOutlined, DesktopOutlined, EllipsisOutlined, FileOutlined, Gift
 import './CustomSider.scss'
 import { Avatar, Button, Dropdown, Menu, MenuProps } from 'antd';
 import { useNavigate } from "react-router-dom";
-import React from 'react';
+import useGlobalStore from '../../store/useGlobalStore';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -44,6 +44,7 @@ const items: MenuItem[] = [
 
 const CustomSider = () => {
     const navigate = useNavigate();
+    const { setIsAccessToken } = useGlobalStore()
 
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
@@ -54,6 +55,7 @@ const CustomSider = () => {
             key: 'logout', label: 'Logout', onClick: () => {
                 console.log('success')
                 sessionStorage.removeItem('access_token')
+                setIsAccessToken(false)
                 navigate("/login", { replace: true });
             }
         },
@@ -72,7 +74,7 @@ const CustomSider = () => {
                 </div>
                 <Menu
                     mode="inline"
-                    defaultSelectedKeys={['static']}
+                    defaultSelectedKeys={['article']}
                     defaultOpenKeys={['sub1']}
                     className='sider-menu'
                     items={items}

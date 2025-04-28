@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { changeIndex } from "../../apis/article/articleApi";
 
 
@@ -16,11 +16,11 @@ const changeArticleIndex = async (data: any) => {
 }
 
 const useChangeIndex = () => {
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: any) => changeArticleIndex(data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['articleTable'] });
+            console.log("success")
         }
     })
 }

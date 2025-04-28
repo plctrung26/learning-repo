@@ -7,11 +7,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableRow from './DraggableRow';
 import React from 'react';
 import { checkDnD } from '../../utils/checkDnD';
-import useChangeIndex from '../../hooks/articleHooks/useChangeIndex';
+// import useChangeIndex from '../../hooks/articleHooks/useChangeIndex';
 
 interface DraggableTableProps<RecordType> extends TableProps<RecordType> {
     onChangeIndex: (isChangeIndex: boolean) => void;
     onCancel: (isCancelChangeIndex: boolean) => void;
+    updateFunction: (data: any) => void
     isChangeIndex: boolean;
     isCancelChangeIndex: boolean;
 }
@@ -19,14 +20,13 @@ interface DraggableTableProps<RecordType> extends TableProps<RecordType> {
 const DraggableTable = <RecordType extends { key: React.Key, id: string; index: number }>({
     onChangeIndex,
     onCancel,
+    updateFunction,
     isChangeIndex,
     isCancelChangeIndex,
     ...props
 }: DraggableTableProps<RecordType>) => {
     const [originalData, setOriginalData] = useState<RecordType[]>([...(props.dataSource || [])]);
     const [data, setData] = useState<RecordType[]>([...(props.dataSource || [])]);
-    const { mutate } = useChangeIndex()
-
     useEffect(() => {
         if (props.dataSource) {
             setData([...props.dataSource])
@@ -44,10 +44,11 @@ const DraggableTable = <RecordType extends { key: React.Key, id: string; index: 
 
     useEffect(() => {
         if (isChangeIndex === true) {
-            mutate(data)
             onChangeIndex(false)
+            updateFunction(data)
+            setOriginalData(data)
         }
-    }, [isChangeIndex, data, mutate]);
+    }, [isChangeIndex, data, updateFunction]);
 
     const moveRow = useCallback((fromIndex: number, toIndex: number) => {
         setData((prevData) => {

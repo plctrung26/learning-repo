@@ -2,18 +2,19 @@ import { Button, Form, Input, message } from "antd"
 import '../styles/LoginPage.scss'
 import { useNavigate } from "react-router-dom";
 import { logIn } from "../apis/login/loginApi";
+import { waitForSessionToken } from "../utils/checkAccessToken";
 
 
 const LoginPage = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate()
 
+
     const onFinish = async (values: { username: string; password: string }) => {
-        console.log("Form Submitted with Data:", values);
         try {
-            const res = await logIn(values)
-            navigate("/article", { replace: true })
-            return res
+            await logIn(values)
+            await waitForSessionToken();
+            navigate("/article", { replace: true });
         } catch (error) {
             console.log("Login failed:", error);
             message.error("Invalid credentials. Please try again.");

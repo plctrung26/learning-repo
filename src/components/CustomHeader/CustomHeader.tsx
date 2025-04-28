@@ -1,10 +1,13 @@
 import { Breadcrumb, Button } from 'antd'
 import './CustomHeader.scss'
-import useArticleStore from '../../store/article/useArticleStore';
 import CustomSearchBar from '../CustomSearchBar/CustomSearchBar';
 
-const CustomHeader = () => {
-    const { openArticleDrawer, setAction } = useArticleStore()
+interface CustomHeaderProps {
+    handleButtonClick?: () => void
+}
+
+const CustomHeader = ({ handleButtonClick = () => { } }: CustomHeaderProps) => {
+    // const { openArticleDrawer, setAction } = useArticleStore()
 
     return (
         <div className="custom-navbar">
@@ -19,10 +22,7 @@ const CustomHeader = () => {
             </div>
             <Button
                 className='filter-button'
-                onClick={() => {
-                    setAction("create")
-                    openArticleDrawer()
-                }}
+                onClick={handleButtonClick}
             >
                 Create
             </Button>

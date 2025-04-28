@@ -1,5 +1,5 @@
 import { TableColumnsType, TableProps } from "antd";
-import React from "react";
+
 import CustomTable from "../components/CustomTable/CustomTable";
 
 interface DataType {

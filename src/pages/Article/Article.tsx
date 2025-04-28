@@ -1,17 +1,16 @@
 import { TableColumnsType } from "antd";
 import { ArticleDataType } from "../../types/article/ArticleDataType";
-import { useEffect, useState } from "react";
-import DraggableTable from "../../components/CustomTable/DraggableTable";
 import { formatDate } from "../../utils/formatDate";
 import ArticleUpdateDrawer from "./container/ArticleUpdateDrawer";
-import React from "react";
+
 import ArticleButtonGroup from "./container/ArticleButtonGroup";
 import useTableData from "../../hooks/articleHooks/useTableData";
 import ArticleDeleteModal from "./container/ArticleDeleteModal";
 import ArticleCreateDrawer from "./container/ArticleCreateDrawer";
 import useArticleStore from "../../store/article/useArticleStore";
-import { filterData } from "../../utils/filterData";
 import ArticleDraggableTable from "./container/ArticleDraggableTable";
+import useGlobalStore from "../../store/useGlobalStore";
+import PageLoading from "../../components/PageLoading/PageLoading";
 
 interface DataType extends ArticleDataType {
     key: React.Key;
@@ -57,17 +56,8 @@ const columns: TableColumnsType<DataType> = [
 
 const Article = () => {
     const { data } = useTableData();
-    const [filteredData, setFilteredData] = useState<any>(data)
-    const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex } = useArticleStore();
-    const id = useArticleStore((state) => state.id)
-
-    useEffect(() => {
-        if (data) {
-            setFilteredData(filterData(data, queryString));
-        }
-    }, [queryString, data]);
-
-    useEffect(() => setFilteredData(data), [data])
+    const { id } = useArticleStore();
+    const { isLoading } = useGlobalStore()
 
     return (
         <div style={{
@@ -79,19 +69,11 @@ const Article = () => {
             flexDirection: 'column',
             boxSizing: 'border-box'
         }}  >
-
-            {/* <DraggableTable
-                onChangeIndex={setIsChangeIndex}
-                onCancel={setIsCancelChangeIndex}
-                isChangeIndex={isChangeIndex}
-                isCancelChangeIndex={isCancelChangeIndex}
-                columns={columns}
-                dataSource={filteredData}
-            ></DraggableTable> */}
-            <ArticleDraggableTable data={filteredData} columns={columns}></ArticleDraggableTable>
+            <ArticleDraggableTable data={data} columns={columns}></ArticleDraggableTable>
             <ArticleUpdateDrawer />
             <ArticleDeleteModal formData={id} />
             <ArticleCreateDrawer />
+            {isLoading && <PageLoading />}
         </div>
 
     )

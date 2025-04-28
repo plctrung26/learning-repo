@@ -6,6 +6,7 @@ import App from "../pages/App";
 import CustomLayout from "../utils/CustomLayout";
 import Account from "../pages/Account";
 import StaticContent from "../pages/StaticContent/StaticContent";
+import ArticleHeader from "../pages/Article/container/ArticleHeader";
 
 const routes: RouteObject[] = [
     { path: "/login", element: <LoginPage /> },
@@ -18,9 +19,15 @@ const routes: RouteObject[] = [
                 path: "/",
                 element: <CustomLayout />,
                 children: [
-                    { path: "article", element: <Article /> },
                     { path: "account", element: <Account /> },
                     { path: "static-content", element: <StaticContent /> }
+                ],
+            },
+            {
+                path: "/",
+                element: <CustomLayout header={<ArticleHeader />} />,
+                children: [
+                    { path: "article", element: <Article /> },
                 ],
             },
         ],
