@@ -9,7 +9,10 @@ const ArticleHeader = () => {
         openArticleDrawer()
     }
     return (
-        <CustomHeader handleButtonClick={handleClick} />
+        <CustomHeader
+            beadcrumbTitle={[{ title: "Article" }]}
+            articleButtonText="Create Article"
+            handleButtonClick={handleClick} />
     )
 }
 

@@ -46,8 +46,10 @@ const CustomSider = () => {
     const navigate = useNavigate();
     const { setIsAccessToken } = useGlobalStore()
 
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
+    const onClick: MenuProps['onClick'] = (key) => {
+        const reversedKeyPath = key.keyPath.reverse()
+        const path = "/" + reversedKeyPath.join("/")
+        navigate(path)
     }
 
     const userMoreItems: MenuProps['items'] = [
@@ -75,7 +77,6 @@ const CustomSider = () => {
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['article']}
-                    defaultOpenKeys={['sub1']}
                     className='sider-menu'
                     items={items}
                     onClick={onClick}
