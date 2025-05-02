@@ -18,13 +18,14 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, 
         <>
             <Drawer {...drawerProps}
                 title={drawerTitle}
+                width={'500px'}
                 footer={<Button
                     onClick={onSubmit}
                     style={{
                         width: "100%"
                     }}>{submitButtonText}</Button>}>
                 {children}
-            </Drawer>
+            </Drawer >
         </>
     );
 };
