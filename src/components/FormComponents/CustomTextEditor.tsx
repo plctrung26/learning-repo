@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import 'react-quill-new/dist/quill.snow.css';
 import './CustomTextEditor.scss';
-import CustomToolbar from "./CustomEditorToolbar";
 
 interface Props {
+    toolbarId: string
     value?: string;
     onChange?: (value: string) => void;
 }
 
-const CustomTextEditor: React.FC<Props> = ({ value = "", onChange }) => {
+const CustomTextEditor: React.FC<Props> = ({ toolbarId, value = "", onChange }) => {
     const [editorValue, setEditorValue] = useState(value);
 
     const [isToolbarReady, setToolbarReady] = useState(false);
@@ -25,23 +25,21 @@ const CustomTextEditor: React.FC<Props> = ({ value = "", onChange }) => {
 
     const modules = {
         toolbar: {
-            container: "#editor-toolbar"
+            container: `#${toolbarId}`
         }
     };
 
     useEffect(() => {
-        const toolbar = document.getElementById('editor-toolbar');
+        const toolbar = document.getElementById(toolbarId);
         if (toolbar) {
-            console.log('Toolbar is ready:', toolbar);
             setToolbarReady(true);
         } else {
-            console.error('Toolbar element not found.');
+            setToolbarReady(false);
         }
-    }, []);
+    }, [isToolbarReady]);
 
     return (
         <div>
-            <CustomToolbar />
             {isToolbarReady && (
                 <ReactQuill
                     value={editorValue}

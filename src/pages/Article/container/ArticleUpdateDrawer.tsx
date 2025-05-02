@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import CustomDrawer from "../../../components/CustomDrawer/CustomDrawer";
 import CustomInput from "../../../components/FormComponents/CustomInput";
 import CustomSelect from "../../../components/FormComponents/CustomSelect";
@@ -9,6 +9,10 @@ import ArticleUpdateModal from "./ArticleUpdateModal";
 import useTableRowData from "../../../hooks/articleHooks/useTableRowData";
 import useCategoryData from "../../../hooks/articleHooks/useCategoryData";
 import useArticleStore from "../../../store/article/useArticleStore";
+import InputTitleValidaion from "../../../components/FormComponents/CustomFormTitle";
+import useGlobalStore from "../../../store/useGlobalStore";
+import CustomToolbar from "../../../components/FormComponents/CustomEditorToolbar";
+
 const ArticleUpdateDrawer = () => {
     const [form] = Form.useForm();
     const { id, closeArticleDrawer, openArticleModal2 } = useArticleStore()
@@ -19,6 +23,7 @@ const ArticleUpdateDrawer = () => {
     const [pendingFormData, setPendingFormData] = useState<any>(null);
     const { data: tableRowData } = useTableRowData(id)
     const { data: customSelectData } = useCategoryData()
+    const { setIsOnTop } = useGlobalStore()
 
     useEffect(() => {
         if (!tableRowData) return
@@ -49,6 +54,7 @@ const ArticleUpdateDrawer = () => {
                     console.log("I")
                     form.resetFields();
                     closeArticleDrawer();
+                    setIsOnTop(true)
                 }}
                 onSubmit={async () => {
                     try {
@@ -61,25 +67,29 @@ const ArticleUpdateDrawer = () => {
                 }}>
                 <Form form={form} layout="vertical" >
                     <Form.Item
-                        label="Title"
+                        label={<InputTitleValidaion value={"Title"} />}
                         name="title"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
-                        <Input placeholder="Title" />
+                        <CustomInput placeholder="Title" />
                     </Form.Item>
                     <Form.Item
-                        label="Author"
+                        label={<InputTitleValidaion value={"Author"} />}
                         name="author"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
                         <CustomInput placeholder="Author" />
                     </Form.Item>
                     <Form.Item
-                        label="Status"
+                        label={<InputTitleValidaion value={"Status"} />}
                         name="status"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
                         <CustomSelect
+                            defaultValue="Select Status"
                             options={[
                                 { value: 'Published', label: 'Published' },
                                 { value: 'Unpublished', label: 'Unpublished' },
@@ -87,33 +97,39 @@ const ArticleUpdateDrawer = () => {
                             ]} />
                     </Form.Item>
                     <Form.Item
-                        label="Category"
+                        label={<InputTitleValidaion value={"Category"} />}
                         name="category"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
                         <CustomSelect
+                            defaultValue="Select Category"
                             options={customSelectData} />
                     </Form.Item>
                     <Form.Item
-                        label="Duration (Ex: 3 mins)"
+                        label={<InputTitleValidaion value={"Duration (Ex: 3 mins)"} />}
                         name="timeToRead"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
                         <CustomInput placeholder="Duration" type="number" />
                     </Form.Item>
                     <Form.Item
-                        label="Image"
+                        label={<InputTitleValidaion value={"Image"} />}
                         name="picture"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
                         <CustomUpload />
                     </Form.Item>
                     <Form.Item
-                        label="Content"
+                        label={<InputTitleValidaion value={"Content"} />}
                         name="content"
                         rules={[{ required: true, message: "This field is required." }]}
+                        required={false}
                     >
-                        <CustomTextEditor value={contentValue} />
+                        <CustomToolbar id="article-update-toolbar" />
+                        <CustomTextEditor toolbarId="article-update-toolbar" value={contentValue} />
                     </Form.Item>
                 </Form>
             </CustomDrawer>

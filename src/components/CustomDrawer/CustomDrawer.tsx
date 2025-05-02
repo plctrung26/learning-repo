@@ -1,5 +1,7 @@
 import { Button, Drawer, DrawerProps } from 'antd';
 import './ShowDrawerButton.scss'
+import { useEffect } from 'react';
+import useGlobalStore from '../../store/useGlobalStore';
 
 interface CustomDrawerProps extends DrawerProps {
     children?: React.ReactNode;
@@ -13,6 +15,17 @@ interface CustomDrawerProps extends DrawerProps {
 }
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
+    const { isOnTop, setIsOnTop } = useGlobalStore()
+
+    useEffect(() => {
+        if (isOnTop === true) {
+            const drawerBody = document.querySelector('.ant-drawer-body') as HTMLDivElement;
+            if (drawerBody) {
+                drawerBody.scrollTop = 0;
+            }
+            setIsOnTop(false);
+        }
+    }, [isOnTop, setIsOnTop]);
 
     return (
         <>
@@ -24,7 +37,10 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, 
                     style={{
                         width: "100%"
                     }}>{submitButtonText}</Button>}>
+
                 {children}
+
+
             </Drawer >
         </>
     );

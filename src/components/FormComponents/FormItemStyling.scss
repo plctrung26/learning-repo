@@ -1,0 +1,31 @@
+.custom-form-item {
+    height: 50px !important;
+
+    &:hover {
+        border-color: #70BA2B !important;
+    }
+
+    &:focus-within {
+        border-color: #70BA2B !important;
+        box-shadow: none;
+    }
+
+}
+
+.custom-form-item .ant-select-selector {
+
+    &:focus-within {
+        border-color: #70BA2B !important;
+        box-shadow: none !important;
+
+
+        .ant-select-focused {
+            border-color: #70BA2B !important;
+            box-shadow: none !important;
+        }
+    }
+
+    &:hover {
+        border-color: #70BA2B !important;
+    }
+}

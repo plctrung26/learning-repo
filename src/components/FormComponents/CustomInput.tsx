@@ -1,4 +1,5 @@
 import { Input, InputProps } from "antd"
+import './FormItemStyling.scss'
 
 
 interface CustomInputProps extends InputProps {
@@ -7,7 +8,9 @@ interface CustomInputProps extends InputProps {
 
 const CustomInput: React.FC<CustomInputProps> = ({ ...InputProps }) => {
     return (
-        <Input {...InputProps}></Input>
+        <Input
+            className="custom-form-item"
+            {...InputProps}></Input>
     )
 }
 

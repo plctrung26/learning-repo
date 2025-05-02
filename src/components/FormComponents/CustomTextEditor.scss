@@ -1,7 +1,3 @@
-#editor-toolbar {
-    border-bottom: 1px solid #ddd;
-}
-
 .ql-toolbar button:hover {
     background-color: #f3f3f3;
 }
@@ -17,4 +13,8 @@
 .ql-toolbar .ql-picker-item:hover,
 .ql-toolbar .ql-picker-item.ql-selected {
     background-color: #f3f3f3;
+}
+
+.ql-editor {
+    height: 300px;
 }

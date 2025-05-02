@@ -1,6 +1,11 @@
-const CustomToolbar = () => {
+import './CustomTextEditor.scss'
+interface CustomToolbarProps {
+    id: string
+}
+
+const CustomToolbar = ({ id }: CustomToolbarProps) => {
     return (
-        <div id="editor-toolbar">
+        <div id={id}>
             <select className="ql-header" defaultValue="normal">
                 <option value="1">Heading</option>
                 <option value="2">Subheading</option>
@@ -23,8 +28,9 @@ const CustomToolbar = () => {
             <button className="ql-clean"></button>
             <select className="ql-color"></select>
             <select className="ql-background"></select>
+        </ div>
 
-        </div>
+
     )
 }
 
