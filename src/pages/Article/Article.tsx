@@ -1,4 +1,4 @@
-import { Badge, TableColumnsType } from "antd";
+import { TableColumnsType } from "antd";
 import { ArticleDataType } from "../../types/article/ArticleDataType";
 import { formatDate } from "../../utils/formatDate";
 import ArticleUpdateDrawer from "./container/ArticleUpdateDrawer";
@@ -13,7 +13,6 @@ import useGlobalStore from "../../store/useGlobalStore";
 import PageLoading from "../../components/PageLoading/PageLoading";
 import { getStatusBadgeColor } from "../../utils/getStatusBadgeColor";
 import CustomBadge from "../../components/CustomBadge/CustomBadge";
-import CustomToolbar from "../../components/FormComponents/CustomEditorToolbar";
 
 interface DataType extends ArticleDataType {
     key: React.Key;
