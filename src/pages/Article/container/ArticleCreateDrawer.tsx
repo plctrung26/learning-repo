@@ -11,8 +11,6 @@ import { useState } from "react";
 import useArticleStore from "../../../store/article/useArticleStore";
 import useGlobalStore from "../../../store/useGlobalStore";
 import InputTitleValidaion from "../../../components/FormComponents/CustomFormTitle";
-import CustomToolbar from "../../../components/FormComponents/CustomEditorToolbar";
-
 
 const ArticleCreateDrawer = () => {
     const [form] = Form.useForm();
@@ -22,7 +20,7 @@ const ArticleCreateDrawer = () => {
     const [modalData, setModalData] = useState<ArticleDataType>()
     const { setAction, openArticleModal2 } = useArticleStore()
     const { setIsOnTop } = useGlobalStore()
-
+    
     return (
         <>
             <CustomDrawer
@@ -108,7 +106,6 @@ const ArticleCreateDrawer = () => {
                         rules={[{ required: true, message: "This field is required." }]}
                         required={false}
                     >
-                        <CustomToolbar id="article-create-toolbar" />
                         <CustomTextEditor toolbarId="article-create-toolbar" />
                     </Form.Item>
                 </Form>

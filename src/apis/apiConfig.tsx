@@ -1,12 +1,14 @@
 
 import axios from "axios";
 import useGlobalStore from "../store/useGlobalStore";
+import { jwtDecode } from 'jwt-decode';
+import { refreshAccessToken } from "./login/loginApi";
+import { checkExpiredToken } from "../utils/checkExpiredToken";
 
 const BASE_API_URL = 'https://dev-api-nurture.vinova.sg/api/v1/';
 
 const instance = axios.create({
     baseURL: BASE_API_URL,
-    // headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }
 });
 
 
@@ -15,9 +17,14 @@ instance.interceptors.request.use(
         useGlobalStore.getState().setLoading(true);
         const token = sessionStorage.getItem('access_token');
         if (token) {
+            const expiredTime = jwtDecode(token)?.exp || -1
+            if (checkExpiredToken(expiredTime)) {
+                refreshAccessToken()
+            }
             config.headers['Authorization'] = `Bearer ${token}`;
         } else {
             delete config.headers['Authorization'];
+            console.log("I am here")
         }
         return config;
     },

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import 'react-quill-new/dist/quill.snow.css';
 import './CustomTextEditor.scss';
+import CustomToolbar from "./CustomEditorToolbar";
 
 interface Props {
     toolbarId: string
@@ -40,6 +41,7 @@ const CustomTextEditor: React.FC<Props> = ({ toolbarId, value = "", onChange }) 
 
     return (
         <div>
+            <CustomToolbar id={toolbarId} />
             {isToolbarReady && (
                 <ReactQuill
                     value={editorValue}

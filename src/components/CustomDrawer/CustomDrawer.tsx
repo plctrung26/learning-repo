@@ -14,14 +14,28 @@ interface CustomDrawerProps extends DrawerProps {
     onSubmit: () => void
 }
 
-const CustomDrawer: React.FC<CustomDrawerProps> = ({ onSubmit, openButtonShape, drawerTitle, toolTipTitle, children, openButtonText, openButtonIcon, submitButtonText, ...drawerProps }) => {
+const CustomDrawer = (
+    {
+        onSubmit,
+        openButtonShape,
+        drawerTitle,
+        toolTipTitle,
+        children,
+        openButtonText,
+        openButtonIcon,
+        submitButtonText,
+        ...drawerProps
+    }: CustomDrawerProps) => {
+
     const { isOnTop, setIsOnTop } = useGlobalStore()
 
     useEffect(() => {
         if (isOnTop === true) {
-            const drawerBody = document.querySelector('.ant-drawer-body') as HTMLDivElement;
+            const drawerBody = document.querySelectorAll('.ant-drawer-body')
             if (drawerBody) {
-                drawerBody.scrollTop = 0;
+                drawerBody.forEach(element => {
+                    element.scrollTop = 0;
+                });
             }
             setIsOnTop(false);
         }

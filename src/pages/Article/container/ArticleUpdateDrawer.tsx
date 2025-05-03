@@ -11,7 +11,6 @@ import useCategoryData from "../../../hooks/articleHooks/useCategoryData";
 import useArticleStore from "../../../store/article/useArticleStore";
 import InputTitleValidaion from "../../../components/FormComponents/CustomFormTitle";
 import useGlobalStore from "../../../store/useGlobalStore";
-import CustomToolbar from "../../../components/FormComponents/CustomEditorToolbar";
 
 const ArticleUpdateDrawer = () => {
     const [form] = Form.useForm();
@@ -51,7 +50,6 @@ const ArticleUpdateDrawer = () => {
                 drawerTitle="Edit Article"
                 submitButtonText="Update"
                 onClose={() => {
-                    console.log("I")
                     form.resetFields();
                     closeArticleDrawer();
                     setIsOnTop(true)
@@ -65,7 +63,19 @@ const ArticleUpdateDrawer = () => {
                         console.log("Validation failed:", err);
                     }
                 }}>
-                <Form form={form} layout="vertical" >
+                <Form
+                    form={form}
+                    layout="vertical"
+                    initialValues={{
+                        title: '',
+                        author: '',
+                        status: 'Select Status',
+                        category: 'Select Category',
+                        timeToRead: '',
+                        picture: null,
+                        content: ''
+                    }}
+                >
                     <Form.Item
                         label={<InputTitleValidaion value={"Title"} />}
                         name="title"
@@ -89,7 +99,6 @@ const ArticleUpdateDrawer = () => {
                         required={false}
                     >
                         <CustomSelect
-                            defaultValue="Select Status"
                             options={[
                                 { value: 'Published', label: 'Published' },
                                 { value: 'Unpublished', label: 'Unpublished' },
@@ -103,7 +112,6 @@ const ArticleUpdateDrawer = () => {
                         required={false}
                     >
                         <CustomSelect
-                            defaultValue="Select Category"
                             options={customSelectData} />
                     </Form.Item>
                     <Form.Item
@@ -128,7 +136,7 @@ const ArticleUpdateDrawer = () => {
                         rules={[{ required: true, message: "This field is required." }]}
                         required={false}
                     >
-                        <CustomToolbar id="article-update-toolbar" />
+
                         <CustomTextEditor toolbarId="article-update-toolbar" value={contentValue} />
                     </Form.Item>
                 </Form>
