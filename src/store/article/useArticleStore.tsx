@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { registerStoreReset } from '../resetStoreRegistry';
 
 type ArticleType = 'modal' | 'drawer' | null;
 type ArticleAction = 'update' | 'create' | 'delete' | null;
@@ -36,9 +37,10 @@ interface ArticleStoreState {
     closeArticleDrawer: () => void;
     closeArticleModal: () => void;
     clearQueryString: () => void;
+    reset: () => void
 }
 
-const useArticleStore = create<ArticleStoreState>((set) => ({
+const initialState = {
     isOpen: false,
     id: "",
     type: null,
@@ -52,7 +54,11 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
     isChangeIndex: false,
     isCancelChangeIndex: false,
     isOutdated: false,
+}
 
+const useArticleStore = create<ArticleStoreState>((set) => ({
+
+    ...initialState,
     setIsOpen: (isOpen) => set({ isOpen }),
     setId: (id) => set({ id }),
     setType: (type) => set({ type }),
@@ -90,8 +96,11 @@ const useArticleStore = create<ArticleStoreState>((set) => ({
 
     clearQueryString: () => set({
         queryString: ""
-    })
+    }),
+    reset: () => set(initialState),
 
 }));
+
+registerStoreReset("article", useArticleStore.getState().reset);
 
 export default useArticleStore;

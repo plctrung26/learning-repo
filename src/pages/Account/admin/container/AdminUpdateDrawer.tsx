@@ -24,7 +24,7 @@ const AdminUpdateDrawer = () => {
     const { setIsOnTop } = useGlobalStore();
 
     useEffect(() => {
-        if (adminRowData) {
+        if (adminRowData && isDrawerOpen) {
             console.log(adminRowData)
             setRole(adminRowData.role)
             const test: AdminByIdDataType = {

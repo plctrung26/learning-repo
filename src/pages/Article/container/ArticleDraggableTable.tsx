@@ -60,7 +60,9 @@ const articleColumns: TableColumnsType<TableDataType> = [
 const ArticleDraggableTable = () => {
     const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex, setIsOutdated } = useArticleStore();
     const { mutate } = useChangeIndex()
-    const { data, refetchTable } = useTableData({ search: queryString })
+    const { data, refetchTable } = useTableData({
+        ...(queryString !== "" && { search: queryString })
+    })
 
     useEffect(() => {
         refetchTable()

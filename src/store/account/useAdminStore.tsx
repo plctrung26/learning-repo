@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { registerStoreReset } from '../resetStoreRegistry';
 
 type AdminType = 'modal' | 'drawer' | null;
 type AdminAction = 'update' | 'create' | 'delete' | null;
@@ -44,9 +45,10 @@ interface AdminStoreState {
     closeAdminDrawer: () => void;
     closeAdminModal: () => void;
     clearQueryString: () => void;
+    reset: () => void;
 }
 
-const useAdminStore = create<AdminStoreState>((set) => ({
+const initialState = {
     isOpen: false,
     id: "",
     type: null,
@@ -64,6 +66,10 @@ const useAdminStore = create<AdminStoreState>((set) => ({
     page: 1,
     limit: 25,
     total: 25,
+}
+
+const useAdminStore = create<AdminStoreState>((set) => ({
+    ...initialState,
     setPage: (page) => set({ page }),
     setLimit: (limit) => set({ limit }),
     setTotal: (total) => set({ total }),
@@ -105,8 +111,11 @@ const useAdminStore = create<AdminStoreState>((set) => ({
 
     clearQueryString: () => set({
         queryString: ""
-    })
+    }),
 
+    reset: () => set(initialState),
 }));
+
+registerStoreReset("account/admin", useAdminStore.getState().reset);
 
 export default useAdminStore;

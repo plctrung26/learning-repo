@@ -5,13 +5,14 @@ import useArticleStore from "../../store/article/useArticleStore";
 import ArticleDraggableTable from "./container/ArticleDraggableTable";
 import useGlobalStore from "../../store/useGlobalStore";
 import PageLoading from "../../components/PageLoading/PageLoading";
+import useResetStateOnMount from "../../hooks/useResetStateOnMount";
 
 
 
 const Article = () => {
+    useResetStateOnMount("article")
     const { id } = useArticleStore();
     const { isLoading } = useGlobalStore()
-
 
     return (
         <div style={{
