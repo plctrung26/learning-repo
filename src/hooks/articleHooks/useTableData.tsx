@@ -7,9 +7,10 @@ interface DataType extends ArticleDataType {
     index: number
 }
 
-const fetchData = async () => {
+
+const fetchData = async (params: any) => {
     try {
-        const res = await getArticleData()
+        const res = await getArticleData(params)
         let finalData: DataType[] = []
         if (res.data) {
             finalData = res.data.map((item: DataType) => ({
@@ -23,12 +24,12 @@ const fetchData = async () => {
     }
 }
 
-const useTableData = () => {
+const useTableData = (params: any) => {
     const queryClient = useQueryClient();
 
     const query = useQuery({
-        queryKey: ['articleTable'],
-        queryFn: fetchData
+        queryKey: ['articleTable', params],
+        queryFn: () => fetchData(params)
     })
 
     const refetchTable = () => {

@@ -1,5 +1,6 @@
 import CustomHeader from "../../../components/CustomHeader/CustomHeader"
 import useArticleStore from "../../../store/article/useArticleStore"
+import ArticleSearchBar from "./ArticleSearchBar"
 
 const ArticleHeader = () => {
     const { openArticleDrawer, setAction } = useArticleStore()
@@ -10,9 +11,11 @@ const ArticleHeader = () => {
     }
     return (
         <CustomHeader
+            SearchBarRender={<ArticleSearchBar />}
             beadcrumbTitle={[{ title: "Article" }]}
-            articleButtonText="Create Article"
-            handleButtonClick={handleClick} />
+            buttonText="Create Article"
+            handleButtonClick={handleClick}
+        />
     )
 }
 

@@ -1,75 +1,40 @@
 import { ArticleDataType } from "../../types/article/ArticleDataType";
 import instance from "../apiConfig";
 
-const getArticleData = async (): Promise<ArticleDataType[] | any> => {
-    try {
-        const response = await instance.get("admins/articles", {
-            params: {
-                page: 1,
-                limit: 25,
-                sort: 'index',
-                f_type: 'article'
-            }
-        })
-        return response
-    } catch (error) {
-        console.log("Failed to get data: ", error)
-    }
+const getArticleData = async (params: any): Promise<ArticleDataType[] | any> => {
+    const response = await instance.get("admins/articles", {
+        params: params
+    })
+    return response
 }
 
 const getArticleRowData = async ({ id }: { id: string }): Promise<ArticleDataType | any> => {
-    try {
-        const response = await instance.get(`admins/articles/${id}`)
-        return response.data
-    } catch (error) {
-        console.log("Error fetching data:", error);
-        return error;
-    }
+    const response = await instance.get(`admins/articles/${id}`)
+    return response.data
 }
 
 const updateArticleData = async ({ id, data }: { id: string, data: ArticleDataType }) => {
-    try {
-        console.log(data, id)
-        const response = await instance.put(`admins/articles/${id}`, data)
-        return response
-    } catch (error) {
-        console.log("Failed to update data due to this error:", error);
-        return error;
-    }
+    const response = await instance.put(`admins/articles/${id}`, data)
+    return response
 }
 
 const deleteArticleData = async ({ ids }: { ids: string[] }) => {
-    try {
-        console.log(ids)
-        const response = await instance.delete(`admins/articles/`, {
-            data: {
-                ids: ids
-            }
-        })
-        return response
-    } catch (error) {
-        console.log("Failed to delete data due to this error:", error);
-    }
+    const response = await instance.delete(`admins/articles/`, {
+        data: {
+            ids: ids
+        }
+    })
+    return response
 }
 
 const createArticleData = async ({ newData }: { newData: ArticleDataType }) => {
-    try {
-        const res = await instance.post("admins/articles", newData)
-        console.log(res)
-        return res
-    } catch (err) {
-        console.log(err)
-    }
+    const res = await instance.post("admins/articles", newData)
+    return res
 }
 
 const changeIndex = async (data: { "articles": { id: string, index: number }[] }) => {
-    try {
-        const res = await instance.put("admins/articles/index", data)
-        console.log(res)
-        return res
-    } catch (err) {
-        console.error(err)
-    }
+    const res = await instance.put("admins/articles/index", data)
+    return res
 }
 
 export { createArticleData, getArticleRowData, getArticleData, updateArticleData, deleteArticleData, changeIndex }

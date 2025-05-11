@@ -3,6 +3,7 @@ import { BrowserRouter, useRoutes } from "react-router-dom";
 import { Suspense } from "react";
 import routes from "./routes/routes";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AppWrapper from './routes/AppWrapper';
 
 const AppRoutes = () => useRoutes(routes);
 
@@ -12,7 +13,9 @@ createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
-        <AppRoutes />
+        <AppWrapper>
+          <AppRoutes />
+        </AppWrapper>
       </Suspense>
     </BrowserRouter>
   </QueryClientProvider>

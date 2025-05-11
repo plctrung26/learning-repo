@@ -1,5 +1,4 @@
-
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import useGlobalStore from "../store/useGlobalStore";
 import { jwtDecode } from 'jwt-decode';
 import { refreshAccessToken } from "./login/loginApi";
@@ -7,25 +6,37 @@ import { checkExpiredToken } from "../utils/checkExpiredToken";
 
 const BASE_API_URL = 'https://dev-api-nurture.vinova.sg/api/v1/';
 
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+    returnFullResponse?: boolean;
+}
+
 const instance = axios.create({
     baseURL: BASE_API_URL,
 });
 
-
 instance.interceptors.request.use(
-    (config) => {
+    async (config) => {
         useGlobalStore.getState().setLoading(true);
-        const token = sessionStorage.getItem('access_token');
+
+        let token = sessionStorage.getItem("access_token");
+
         if (token) {
-            const expiredTime = jwtDecode(token)?.exp || -1
+            const expiredTime = jwtDecode(token)?.exp || -1;
+
             if (checkExpiredToken(expiredTime)) {
-                refreshAccessToken()
+                token = await refreshAccessToken();
             }
-            config.headers['Authorization'] = `Bearer ${token}`;
+
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+            } else {
+                delete config.headers['Authorization'];
+            }
         } else {
             delete config.headers['Authorization'];
-            console.log("I am here")
+            console.log("No token found");
         }
+
         return config;
     },
     (error) => {
@@ -34,10 +45,15 @@ instance.interceptors.request.use(
     }
 );
 
+
 instance.interceptors.response.use(
-    (response) => {
+    (response: AxiosResponse<any, CustomAxiosRequestConfig>) => {
+        const config = response.config as CustomAxiosRequestConfig;
+        if (config.returnFullResponse) {
+            return response;
+        }
         useGlobalStore.getState().setLoading(false);
-        return response.data;
+        return response.data
     },
     (error) => {
         useGlobalStore.getState().setLoading(false);

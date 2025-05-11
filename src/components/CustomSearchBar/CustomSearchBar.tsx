@@ -1,14 +1,16 @@
 import { GetProps, Input, InputProps } from "antd";
 import { useRef } from "react";
-import useArticleStore from "../../store/article/useArticleStore";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
+export interface CustomInputProps extends InputProps {
+    queryFunction?: (queryKey: string) => void
+}
+
 const { Search } = Input;
 
-const CustomSearchBar = (props: InputProps) => {
+const CustomSearchBar = ({ queryFunction = () => { }, ...props }: CustomInputProps) => {
     const DEBOUNCE_TIME: number = 500
-    const { setQueryString } = useArticleStore()
     const debounceTimer = useRef<number | null>(null);
 
     const handleChange: SearchProps["onChange"] = (e) => {
@@ -17,12 +19,13 @@ const CustomSearchBar = (props: InputProps) => {
         }
         const value = e.target.value;
         debounceTimer.current = window.setTimeout(() => {
-            setQueryString(value)
+            queryFunction(value)
+            console.log("I am query")
         }, DEBOUNCE_TIME);
     };
 
     const onSearch: SearchProps["onSearch"] = (value) => {
-        setQueryString(value)
+        queryFunction(value)
     };
 
     return (

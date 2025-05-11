@@ -1,14 +1,14 @@
 import { Breadcrumb, Button } from 'antd'
 import './CustomHeader.scss'
 import CustomSearchBar from '../CustomSearchBar/CustomSearchBar';
-
 interface CustomHeaderProps {
-    articleButtonText?: string
+    buttonText?: string
     beadcrumbTitle?: { 'title': string }[]
+    SearchBarRender?: React.ReactNode;
     handleButtonClick?: () => void
 }
 
-const CustomHeader = ({ articleButtonText = 'create', beadcrumbTitle = [{ "title": "none" }], handleButtonClick = () => { } }: CustomHeaderProps) => {
+const CustomHeader = ({ SearchBarRender = <CustomSearchBar placeholder='Default' />, buttonText: articleButtonText = 'create', beadcrumbTitle = [{ "title": "none" }], handleButtonClick = () => { } }: CustomHeaderProps) => {
 
     return (
         <div className="custom-navbar">
@@ -18,7 +18,7 @@ const CustomHeader = ({ articleButtonText = 'create', beadcrumbTitle = [{ "title
                 />
             </div>
             <div className='search-items'>
-                <CustomSearchBar placeholder='Search' />
+                {SearchBarRender}
             </div>
             <Button
                 className='filter-button'

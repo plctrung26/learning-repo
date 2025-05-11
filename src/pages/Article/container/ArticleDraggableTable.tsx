@@ -1,33 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import DraggableTable from "../../../components/CustomTable/DraggableTable"
 import useArticleStore from "../../../store/article/useArticleStore";
-import { filterData } from "../../../utils/filterData";
 import useChangeIndex from "../../../hooks/articleHooks/useChangeIndex";
 import useTableData from "../../../hooks/articleHooks/useTableData";
+import { ArticleDataType } from "../../../types/article/ArticleDataType";
+import { TableColumnsType } from "antd";
+import { formatDate } from "../../../utils/formatDate";
+import { getStatusBadgeColor } from "../../../utils/getStatusBadgeColor";
+import CustomBadge from "../../../components/CustomBadge/CustomBadge";
+import ArticleButtonGroup from "./ArticleButtonGroup";
 
-type ArticleTableProps = {
-    data: any;
-    columns: any;
-};
+interface TableDataType extends ArticleDataType {
+    key: React.Key;
+    index: number
+}
 
-const ArticleDraggableTable = ({ data, columns }: ArticleTableProps) => {
-    const [filteredData, setFilteredData] = useState<any>(data)
+const articleColumns: TableColumnsType<TableDataType> = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
+    },
+    {
+        title: 'Author',
+        dataIndex: 'author',
+    },
+    {
+        title: 'Category',
+        dataIndex: 'category',
+        render: (category) => category?.name
+    },
+    {
+        title: 'Created Date',
+        dataIndex: 'createdAt',
+        render: (createdAt) => formatDate(createdAt)
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        render: (status) => {
+            return (
+                <CustomBadge text={status} colorFunction={getStatusBadgeColor} />
+            )
+        }
+    },
+    {
+        title: "Action",
+        dataIndex: "action",
+        key: "action",
+        width: 120,
+        fixed: "right",
+        render: (_, record) => <ArticleButtonGroup id={record.id} />,
+    },
+];
+
+const ArticleDraggableTable = () => {
     const { queryString, isChangeIndex, isCancelChangeIndex, setIsChangeIndex, setIsCancelChangeIndex, setIsOutdated } = useArticleStore();
     const { mutate } = useChangeIndex()
-    const { refetchTable } = useTableData()
+    const { data, refetchTable } = useTableData({ search: queryString })
 
     useEffect(() => {
-        if (data) {
-            refetchTable()
-            setFilteredData(filterData(data, queryString));
-        }
-    }, [queryString, data]);
+        refetchTable()
 
-    useEffect(() => {
-        if (queryString !== "") {
-            setFilteredData(filterData(data, queryString));
-        }
-    }, [data])
+    }, [queryString]);
 
     useEffect(() => {
         if (isChangeIndex === true) {
@@ -35,7 +73,6 @@ const ArticleDraggableTable = ({ data, columns }: ArticleTableProps) => {
         }
     }, [isChangeIndex])
 
-    useEffect(() => setFilteredData(data), [data])
     return (
         <DraggableTable
             onChangeIndex={setIsChangeIndex}
@@ -43,8 +80,8 @@ const ArticleDraggableTable = ({ data, columns }: ArticleTableProps) => {
             isChangeIndex={isChangeIndex}
             isCancelChangeIndex={isCancelChangeIndex}
             updateFunction={mutate}
-            columns={columns}
-            dataSource={filteredData}
+            columns={articleColumns}
+            dataSource={data}
         />
 
     )

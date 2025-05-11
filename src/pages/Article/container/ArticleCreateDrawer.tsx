@@ -20,7 +20,7 @@ const ArticleCreateDrawer = () => {
     const [modalData, setModalData] = useState<ArticleDataType>()
     const { setAction, openArticleModal2 } = useArticleStore()
     const { setIsOnTop } = useGlobalStore()
-    
+
     return (
         <>
             <CustomDrawer
@@ -43,7 +43,19 @@ const ArticleCreateDrawer = () => {
                         console.log("Validation failed:", err);
                     }
                 }}>
-                <Form form={form} layout="vertical" >
+                <Form
+                    form={form}
+                    layout="vertical"
+                    initialValues={{
+                        title: '',
+                        author: '',
+                        status: 'Select Status',
+                        category: 'Select Category',
+                        timeToRead: '',
+                        picture: null,
+                        content: ''
+                    }}
+                >
                     <Form.Item
                         label={<InputTitleValidaion value={"Title"} />}
                         name="title"
@@ -67,7 +79,6 @@ const ArticleCreateDrawer = () => {
                         required={false}
                     >
                         <CustomSelect
-                            defaultValue="Select Status"
                             options={[
                                 { value: 'Published', label: 'Published' },
                                 { value: 'Unpublished', label: 'Unpublished' },
@@ -81,7 +92,6 @@ const ArticleCreateDrawer = () => {
                         required={false}
                     >
                         <CustomSelect
-                            defaultValue="Select Category"
                             options={customSelectData} />
                     </Form.Item>
                     <Form.Item

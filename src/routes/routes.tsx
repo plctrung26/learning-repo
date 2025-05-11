@@ -4,9 +4,10 @@ import Article from "../pages/Article/Article";
 import ProtectedRoute from "./ProtectedRoute";
 import App from "../pages/App";
 import CustomLayout from "../utils/CustomLayout";
-import Account from "../pages/Account";
 import StaticContent from "../pages/StaticContent/StaticContent";
 import ArticleHeader from "../pages/Article/container/ArticleHeader";
+import Account from "../pages/Account/admin/Account";
+import AdminHeader from "../pages/Account/admin/container/AdminHeader";
 
 const routes: RouteObject[] = [
     { path: "/login", element: <LoginPage /> },
@@ -16,10 +17,16 @@ const routes: RouteObject[] = [
         children: [
             { path: "/", element: <App /> },
             {
+                path: "/accounts",
+                element: <CustomLayout header={<AdminHeader />} />,
+                children: [
+                    { path: "admin", element: <Account /> },
+                ],
+            },
+            {
                 path: "/",
                 element: <CustomLayout />,
                 children: [
-                    { path: "account", element: <Account /> },
                     { path: "static-content", element: <StaticContent /> }
                 ],
             },
